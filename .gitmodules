@@ -1,0 +1,12 @@
+[submodule "Ground Station/vendor/GLFW"]
+	path = Ground Station/vendor/GLFW
+	url = https://github.com/TheCherno/glfw.git
+[submodule "Ground Station/vendor/imgui"]
+	path = Ground Station/vendor/imgui
+	url = https://github.com/TheCherno/imgui.git
+[submodule "Ground Station/vendor/spdlog"]
+	path = Ground Station/vendor/spdlog
+	url = https://github.com/gabime/spdlog
+[submodule "Ground Station/vendor/glm"]
+	path = Ground Station/vendor/glm
+	url = https://github.com/g-truc/glm
