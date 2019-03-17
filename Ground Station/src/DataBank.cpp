@@ -18,20 +18,20 @@ void DataBank::Init() {
 	instance->RegisterEntry(D_AY, "ft/s", "Y acceleration");
 	instance->RegisterEntry(D_AZ, "ft/s", "Z acceleration");
 
-	instance->RegisterEntry("Mission Time",			D_TIME,			 "s", "Time since launch");
-	instance->RegisterEntry("Apogee Height",		D_E_APOGE,		"ft", "The rocket's projected apogee based on its velocity");
-	instance->RegisterEntry("Time to Apogee",		D_TT_APO,		 "s", "The time until the rocket's projected perigee");
-	instance->RegisterEntry("Semi Major Axis",		D_SMA,			"mi", "TODO");
-	instance->RegisterEntry("Eccentricity",			D_ECCN,			 "?", "TODO");
-	instance->RegisterEntry("Inclination",			D_INC,			 "o", "TODO");
-	instance->RegisterEntry("Orbital Period",		D_PEROID,		 "s", "TODO");
-	instance->RegisterEntry("Total Velocity",		D_VEL,		  "ft/s", "TODO");
-	instance->RegisterEntry("Terrain Elevation",	D_TRN_HGT,		"ft", "TODO");
-	instance->RegisterEntry("Latitude",				D_LAT,			 "o", "TODO");
-	instance->RegisterEntry("Longitude",			D_LNG,			 "o", "TODO");
-	instance->RegisterEntry("Heading",				D_HEADING,		 "o", "TODO");
-	instance->RegisterEntry("Vertical Speed",		D_VERTSPD,	  "ft/s", "TODO");
-	instance->RegisterEntry("Horizontal Speed",		D_HORZSPD,	  "ft/s", "TODO");
+	instance->RegisterEntry("Mission Time",         D_TIME,          "s", "Time since launch");
+	instance->RegisterEntry("Apogee Height",        D_E_APOGE,      "ft", "The rocket's projected apogee based on its velocity");
+	instance->RegisterEntry("Time to Apogee",       D_TT_APO,        "s", "The time until the rocket's projected perigee");
+	instance->RegisterEntry("Semi Major Axis",      D_SMA,          "mi", "TODO");
+	instance->RegisterEntry("Eccentricity",         D_ECCN,          "?", "TODO");
+	instance->RegisterEntry("Inclination",          D_INC,           "o", "TODO");
+	instance->RegisterEntry("Orbital Period",       D_PEROID,        "s", "TODO");
+	instance->RegisterEntry("Total Velocity",       D_VEL,        "ft/s", "TODO");
+	instance->RegisterEntry("Terrain Elevation",    D_TRN_HGT,      "ft", "TODO");
+	instance->RegisterEntry("Latitude",             D_LAT,           "o", "TODO");
+	instance->RegisterEntry("Longitude",            D_LNG,           "o", "TODO");
+	instance->RegisterEntry("Heading",              D_HEADING,       "o", "TODO");
+	instance->RegisterEntry("Vertical Speed",       D_VERTSPD,    "ft/s", "TODO");
+	instance->RegisterEntry("Horizontal Speed",     D_HORZSPD,    "ft/s", "TODO");
 }
 
 DataBank* DataBank::GetInstance() {
