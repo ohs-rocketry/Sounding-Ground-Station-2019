@@ -14,6 +14,11 @@ static void GLFWError(int error, const char* description) {
 }
 
 int main() {
+	FILE* test = fopen("test.dat", "wb");
+	if (test) {
+		fprintf(test, "TEST FILE\n");
+		fclose(test);
+	}
 	Log::Init();
 	DataBank::Init();
 

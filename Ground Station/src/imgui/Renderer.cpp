@@ -3,7 +3,6 @@
 #include "imgui/DisplayGroup.h"
 #include "DataBank.h"
 
-#include <imgui.h>
 #include <examples/imgui_impl_glfw.h>
 #include <examples/imgui_impl_opengl3.h>
 
@@ -11,8 +10,9 @@
 
 DisplayGroup* position;
 DisplayGroup* orbit;
-ImFont* numFont;
-ImFont* textFont;
+
+ImFont* Renderer::numFont;
+ImFont* Renderer::textFont;
 
 void Renderer::Render(GLFWwindow* window) {
 	glfwPollEvents();
@@ -30,7 +30,7 @@ void Renderer::Render(GLFWwindow* window) {
 	int display_w, display_h;
 	glfwGetFramebufferSize(window, &display_w, &display_h);
 	glViewport(0, 0, display_w, display_h);
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	glClearColor(0.15f, 0.15f, 0.15f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	ImGuiIO& io = ImGui::GetIO();
@@ -68,8 +68,8 @@ Renderer::Renderer(GLFWwindow* window) {
 	position = new DisplayGroup("Position", { "#POSITION", "X", "Y", "Z", "#VELOCITY", "VX", "VY", "VZ", "#ACCELERATION", "AX", "AY", "AZ" });
 	orbit = new DisplayGroup("Orbit", { D_TIME, D_E_APOGE, D_TT_APO, D_SMA, D_ECCN, D_INC, D_PEROID, D_VEL, D_TRN_HGT, D_LAT, D_LNG, D_HEADING, D_VERTSPD, D_HORZSPD });
 
-	numFont = io.Fonts->AddFontFromFileTTF("/fonts/B612-Bold.ttf", 16.0f);
-	textFont = io.Fonts->AddFontFromFileTTF("/fonts/B612Mono-Bold.ttf", 16.0f);
+	numFont = io.Fonts->AddFontFromFileTTF("./fonts/B612Mono-Bold.ttf", 16.0f);
+	textFont = io.Fonts->AddFontFromFileTTF("./fonts/B612.ttf", 16.0f);
 
 }
 

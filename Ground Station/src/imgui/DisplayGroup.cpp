@@ -1,5 +1,6 @@
 #include "DisplayGroup.h"
 #include "DataBank.h"
+#include "Renderer.h"
 
 #include <imgui.h>
 
@@ -26,27 +27,37 @@ DisplayGroup::DisplayGroup(const char* name, std::initializer_list<std::string> 
 }
 
 void DisplayGroup::Render() {
-	ImGui::Begin(m_name);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 1.5f);
+	ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+	ImGui::Begin(m_name, nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
 	if (m_hasLabels) ImGui::Indent(16.0f);
 	for (int i = 0; i < m_length; i++) {
 		std::string text = m_text[i];
 		if (m_isVar[i]) {
 			Datum* datum = DataBank::GetInstance()->GetDatum(text);
+			ImGui::PushFont(Renderer::numFont);
 			ImGui::Text("%s %f %s", datum->shortName, datum->value, datum->units.c_str());
+			ImGui::PopFont();
 			if (ImGui::IsItemHovered()) {
+				ImGui::PushFont(Renderer::textFont);
 				ImGui::BeginTooltip();
 				ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
 				ImGui::TextUnformatted(datum->desc.c_str());
 				ImGui::PopTextWrapPos();
+				ImGui::PopFont();
 				ImGui::EndTooltip();
 			}
 		} else {
 			if (m_hasLabels) ImGui::Unindent(16.0f);
+			ImGui::PushFont(Renderer::textFont);
 			ImGui::Text(text.c_str());
+			ImGui::PopFont();
 			if (m_hasLabels) ImGui::Indent(16.0f);
 		}
 	}
 	ImGui::End();
+	ImGui::PopStyleColor();
+	ImGui::PopStyleVar();
 }
 
 DisplayGroup::~DisplayGroup() {
