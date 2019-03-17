@@ -1074,5 +1074,6 @@
     <ClCompile Include="src\imgui\ImGuiBuild.cpp" />
     <ClCompile Include="src\imgui\Renderer.cpp" />
     <ClCompile Include="src\imgui\DisplayGroup.cpp" />
+    <ClCompile Include="src\DataBank.cpp" />
   </ItemGroup>
 </Project>

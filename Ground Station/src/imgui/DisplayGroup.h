@@ -5,7 +5,7 @@
 
 class DisplayGroup {
 public:
-	DisplayGroup(std::initializer_list<std::string> list);
+	DisplayGroup(const char* m_name, std::initializer_list<std::string> list);
 	void Render();
 	~DisplayGroup();
 
@@ -14,4 +14,5 @@ private:
 	std::vector<bool> m_isVar;
 	bool m_hasLabels = false;
 	int m_length;
+	const char* m_name;
 };

@@ -475,6 +475,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\DataBank.cpp" />
     <ClCompile Include="src\imgui\DisplayGroup.cpp" />
     <ClCompile Include="src\imgui\ImGuiBuild.cpp" />
     <ClCompile Include="src\imgui\Renderer.cpp" />

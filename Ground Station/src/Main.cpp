@@ -6,6 +6,7 @@
 #include <imgui.h>
 
 #include "Log.h"
+#include "DataBank.h"
 #include "imgui/Renderer.h"
 
 static void GLFWError(int error, const char* description) {
@@ -14,6 +15,7 @@ static void GLFWError(int error, const char* description) {
 
 int main() {
 	Log::Init();
+	DataBank::Init();
 
 	if (glfwInit() != GLFW_TRUE) {
 		GS_CRITICAL("Failed to initalize GLFW");
