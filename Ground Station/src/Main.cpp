@@ -1,4 +1,7 @@
 #include <memory>
+#include <iostream>
+
+#include <stdio.h>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -8,17 +11,16 @@
 #include "Log.h"
 #include "DataBank.h"
 #include "imgui/Renderer.h"
+#include "util/PlatformUtils.h"
+#include "Engine.h"
+#include "Input.h"
 
 static void GLFWError(int error, const char* description) {
 	GS_ERROR("GLFW Error: ({}) {}", error, description);
 }
 
-int main() {
-	FILE* test = fopen("test.dat", "wb");
-	if (test) {
-		fprintf(test, "TEST FILE\n");
-		fclose(test);
-	}
+int main(char** argc, unsigned int count) {
+	PlatformUtils::Init();
 	Log::Init();
 	DataBank::Init();
 
@@ -26,30 +28,69 @@ int main() {
 		GS_CRITICAL("Failed to initalize GLFW");
 		return 1;
 	} else {
-		GS_INFO("Initalized GLFW");
+		GS_INFO("Initalized GLFW {}", glfwGetVersionString());
 	}
+	GS_CRITICAL("CRITICAL");
+	GS_ERROR("ERROR");
+	GS_WARN("Warn");
+	GS_INFO("info");
+	GS_DEBUG("debug");
+	GS_TRACE("trace");
+	float lastTime = glfwGetTime();
+	bool fullscreen = false;
+	GLFWwindow* window;
+	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+	const GLFWvidmode* mode = glfwGetVideoMode(monitor);
 
-	GLFWwindow* window = glfwCreateWindow(1280, 720, "Test window", nullptr, nullptr);
+	GS_TRACE("Creating GLFW window");
+	GS_TRACE("Creating window on monitor name: {}", glfwGetMonitorName(monitor));
+	int width, height;
+	glfwGetMonitorPhysicalSize(monitor, &width, &height);
+	GS_TRACE("Physical width: {} in, height: {} in", width / 10.0 / 2.54, height / 10.0 / 2.54);//Convert mm to in
+	if (fullscreen) {
+		glfwWindowHint(GLFW_DECORATED, false);
+		width = mode->width;
+		height = mode->height;
+	} else {
+		width = mode->width / 4 * 3;
+		height = mode->height / 4 * 3;
+	}
+	GS_TRACE("Window Dimensions: {} X {} px", width, height);
+	glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+	glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+	glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+	glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+	GS_INFO("Window refresh rate: {}, RGB color buffer bits: [{}, {}, {}]", mode->refreshRate, mode->redBits, mode->greenBits, mode->blueBits);
+	window = glfwCreateWindow(width, height, "Team 1800 Ground Station", nullptr, nullptr);
+	if (window) {
+		GS_TRACE("Window created successfully");
+	}
 	glfwMakeContextCurrent(window);
 	glfwSwapInterval(1);
 	glfwSetErrorCallback(GLFWError);
+	glfwSetKeyCallback(window, [](GLFWwindow* window, int keycode, int scancode, int action, int mods) {
+		Input::SetKey(keycode, action != GLFW_RELEASE);// True if pressed or repeated
+	});
+
 	if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
 		GS_CRITICAL("Failed to initalize Glad");
 		return 1;
 	} else {
-		GS_INFO("Initalized Glad");
+		GS_TRACE("Initalized Glad");
 	}
+	GS_INFO("Using OpenGL Version {}", glGetString(GL_VERSION));
 	Renderer* renderer = new Renderer(window);
-
 	while (!glfwWindowShouldClose(window)) {
+		float now = glfwGetTime(), delta = now - lastTime;
+		lastTime = now;
+		Engine::SetDeltaTime(delta);
 
 		renderer->Render(window);
 	}
-
+	glfwHideWindow(window);
 	delete renderer;
 	glfwDestroyWindow(window);
 	
 	glfwTerminate();
-
 	return 0;
 }

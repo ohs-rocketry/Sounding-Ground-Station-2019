@@ -12,7 +12,7 @@ public:
 private:
 	std::vector<std::string> m_text;
 	std::vector<bool> m_isVar;
-	bool m_hasLabels = false;
-	int m_length;
 	const char* m_name;
+	int m_length;
+	bool m_hasLabels = false;
 };

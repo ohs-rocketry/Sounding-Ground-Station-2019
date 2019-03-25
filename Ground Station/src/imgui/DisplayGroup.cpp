@@ -4,6 +4,8 @@
 
 #include <imgui.h>
 
+#define VALUE_LENGTH 8
+
 DisplayGroup::DisplayGroup(const char* name, std::initializer_list<std::string> list) : m_length(list.size()), m_name(name) {
 	m_text.reserve(list.size());
 	m_isVar.reserve(list.size());
@@ -25,39 +27,69 @@ DisplayGroup::DisplayGroup(const char* name, std::initializer_list<std::string> 
 		}
 	}
 }
+char tempString[1024];
+
+//Make a tooltip in the format "(longName) desc" 
+//ie "(Apogee Height) The rocket's projected apogee based on its velocity\0" 
+inline void setupTooltip(std::string longName, std::string desc, std::string units) {
+	int index = 0;
+	tempString[index++] = '(';
+	memcpy(tempString + index, longName.c_str(), longName.length());
+	index += longName.length();
+	tempString[index++] = ')';
+	tempString[index++] = ' ';
+	memcpy(tempString + index, desc.c_str(), desc.length());
+	index += desc.length();
+	tempString[index++] = ' ';
+	tempString[index++] = '[';
+	memcpy(tempString + index, units.c_str(), units.length());
+	index += units.length();
+	tempString[index++] = ']';
+	tempString[index] = 0x00;
+}
+
+void buildValue(double value) {
+	if (value < 0.0) {// Negitive value
+		tempString[0] = '-';
+		value = -value;
+	} else {// Positive value
+		tempString[0] = ' ';
+	}
+	snprintf(tempString + 1, VALUE_LENGTH, "%lf", value);
+}
 
 void DisplayGroup::Render() {
-	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 1.5f);
-	ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-	ImGui::Begin(m_name, nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
-	if (m_hasLabels) ImGui::Indent(16.0f);
-	for (int i = 0; i < m_length; i++) {
-		std::string text = m_text[i];
-		if (m_isVar[i]) {
-			Datum* datum = DataBank::GetInstance()->GetDatum(text);
-			ImGui::PushFont(Renderer::numFont);
-			ImGui::Text("%s %f %s", datum->shortName, datum->value, datum->units.c_str());
-			ImGui::PopFont();
-			if (ImGui::IsItemHovered()) {
-				ImGui::PushFont(Renderer::textFont);
-				ImGui::BeginTooltip();
-				ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
-				ImGui::TextUnformatted(datum->desc.c_str());
-				ImGui::PopTextWrapPos();
+	if (Renderer::GSBegin(m_name)) {
+		if (m_hasLabels) ImGui::Indent(16.0f);
+		for (int i = 0; i < m_length; i++) {
+			std::string text = m_text[i];
+			if (m_isVar[i]) {
+				Datum* datum = DataBank::GetInstance()->GetDatum(text);
+				ImGui::PushFont(Renderer::numFont);
+				buildValue(datum->GetValue());
+				ImGui::Text("%s %s %s", datum->shortName, tempString, datum->units.c_str());
 				ImGui::PopFont();
-				ImGui::EndTooltip();
+				if (ImGui::IsItemHovered()) {
+					ImGui::PushFont(Renderer::arialFont);
+					ImGui::BeginTooltip();
+					ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+					setupTooltip(datum->longName, datum->desc, datum->longUnits);
+					ImGui::TextUnformatted(tempString);
+					ImGui::PopTextWrapPos();
+					ImGui::PopFont();
+					ImGui::EndTooltip();
+				}
 			}
-		} else {
-			if (m_hasLabels) ImGui::Unindent(16.0f);
-			ImGui::PushFont(Renderer::textFont);
-			ImGui::Text(text.c_str());
-			ImGui::PopFont();
-			if (m_hasLabels) ImGui::Indent(16.0f);
+			else {
+				if (m_hasLabels) ImGui::Unindent(16.0f);
+				ImGui::PushFont(Renderer::textFont);
+				ImGui::Text(text.c_str());
+				ImGui::PopFont();
+				if (m_hasLabels) ImGui::Indent(16.0f);
+			}
 		}
 	}
-	ImGui::End();
-	ImGui::PopStyleColor();
-	ImGui::PopStyleVar();
+	Renderer::GSEnd();
 }
 
 DisplayGroup::~DisplayGroup() {

@@ -1,37 +1,68 @@
 
 #include "DataBank.h"
+
+#include "util/PlatformUtils.h"
+
 #include <algorithm>
+#include <sstream>
 
 DataBank* DataBank::s_instance = nullptr;
 
 void DataBank::Init() {
 	DataBank* instance = GetInstance();
-	instance->RegisterEntry(D_X, "ft/s", "X position");
-	instance->RegisterEntry(D_Y, "ft/s", "Y position");
-	instance->RegisterEntry(D_Z, "ft/s", "Z position");
+	instance->RegisterEntry("X", "ft", "X position");
+	instance->RegisterEntry("Y", "ft", "Y position");
+	instance->RegisterEntry("Z", "ft", "Z position");
 
-	instance->RegisterEntry(D_VX, "ft/s", "X velocity");
-	instance->RegisterEntry(D_VY, "ft/s", "Y velocity");
-	instance->RegisterEntry(D_VZ, "ft/s", "Z velocity");
+	instance->RegisterEntry("VX", "ft/s", "X velocity");
+	instance->RegisterEntry("VY", "ft/s", "Y velocity");
+	instance->RegisterEntry("VZ", "ft/s", "Z velocity");
 
-	instance->RegisterEntry(D_AX, "ft/s", "X acceleration");
-	instance->RegisterEntry(D_AY, "ft/s", "Y acceleration");
-	instance->RegisterEntry(D_AZ, "ft/s", "Z acceleration");
+	instance->RegisterEntry("AX", "ft/s^2", "X acceleration");
+	instance->RegisterEntry("AY", "ft/s^2", "Y acceleration");
+	instance->RegisterEntry("AZ", "ft/s^2", "Z acceleration");
 
 	instance->RegisterEntry("Mission Time",         D_TIME,          "s", "Time since launch");
 	instance->RegisterEntry("Apogee Height",        D_E_APOGE,      "ft", "The rocket's projected apogee based on its velocity");
 	instance->RegisterEntry("Time to Apogee",       D_TT_APO,        "s", "The time until the rocket's projected perigee");
-	instance->RegisterEntry("Semi Major Axis",      D_SMA,          "mi", "TODO");
-	instance->RegisterEntry("Eccentricity",         D_ECCN,          "?", "TODO");
-	instance->RegisterEntry("Inclination",          D_INC,           "o", "TODO");
-	instance->RegisterEntry("Orbital Period",       D_PEROID,        "s", "TODO");
-	instance->RegisterEntry("Total Velocity",       D_VEL,        "ft/s", "TODO");
-	instance->RegisterEntry("Terrain Elevation",    D_TRN_HGT,      "ft", "TODO");
-	instance->RegisterEntry("Latitude",             D_LAT,           "o", "TODO");
-	instance->RegisterEntry("Longitude",            D_LNG,           "o", "TODO");
-	instance->RegisterEntry("Heading",              D_HEADING,       "o", "TODO");
-	instance->RegisterEntry("Vertical Speed",       D_VERTSPD,    "ft/s", "TODO");
-	instance->RegisterEntry("Horizontal Speed",     D_HORZSPD,    "ft/s", "TODO");
+	instance->RegisterEntry("Semi Major Axis",      D_SMA,          "mi", "The length of the semi major axis");
+	instance->RegisterEntry("Eccentricity",         D_ECCN,          "?", "A measure of how round the rocket's orbit is");
+	instance->RegisterEntry("Inclination",          D_INC,           "o", "The angle of inclination between the plane of this orbit and the equator");
+	instance->RegisterEntry("Orbital Period",       D_PEROID,        "s", "THe duration of time it takes to complete one orbit");
+	instance->RegisterEntry("Total Velocity",       D_VEL,        "ft/s", "The complete (vertical and horizontal) velocity of the rocket");
+	instance->RegisterEntry("Terrain Elevation",    D_TRN_HGT,      "ft", "How far the terrain is above sea level");
+	instance->RegisterEntry("Latitude",             D_LAT,           "o", "Latitude coordinate");
+	instance->RegisterEntry("Longitude",            D_LNG,           "o", "Longitude coordinate");
+	instance->RegisterEntry("Heading",              D_HEADING,       "o", "The compass direction the rocket is traveling");
+	instance->RegisterEntry("Vertical Speed",       D_VERTSPD,    "ft/s", "The distance the rocket covers in one second directly upward");
+	instance->RegisterEntry("Horizontal Speed",     D_HORZSPD,    "ft/s", "The distance the rocket covers in one second left to right");
+
+	instance->RegisterEntry("Ground Station Virtual Memory Usage", D_GS_VMem, "MB", "The amount of virtual memory used by this program", 0.5, []() {
+		return PlatformUtils::GetProcessVirtualMemoryUsage() / 1024.0 / 1024.0;
+	});
+	instance->RegisterEntry("System Virtual Memory Usage", D_SYS_VMem, "MB", "The amount of virtual memory in use on the system", 0.5, []() {
+		return PlatformUtils::GetSystemVirtualMemoryUsage() / 1024.0 / 1024.0;
+	});
+	instance->RegisterEntry("Total Virtual Memory Usage", D_T_VMem, "GB", "The total amount of virtual memory avilable on this computer", 0.5, []() {
+		return PlatformUtils::GetTotalMachineVirtualMemory() / 1024.0 / 1024.0 / 1024.0;
+	});
+
+	instance->RegisterEntry("Ground Station RAM Usage", D_GS_RAM, "MB", "The amount of physical RAM used by this program", 0.5, [](){
+		return PlatformUtils::GetProcessPhysicalMemoryUsage() / 1024.0 / 1024.0;
+	});
+	instance->RegisterEntry("System RAM Usage",	D_SYS_RAM, "MB", "The amount of physical RAM in use on the system", 0.5, []() {
+		return PlatformUtils::GetSystemPhysicalMemoryUsage() / 1024.0 / 1024.0;
+	});
+	instance->RegisterEntry("Total RAM Usage",	D_T_RAM, "GB", "The total amount of RAM avilable on this computer", 0.5, []() {
+		return PlatformUtils::GetTotalMachinePhysicalMemory() / 1024.0 / 1024.0 / 1024.0;
+	});
+
+	instance->RegisterEntry("Processor Count", D_CPU_NUM, "processors", "The number of different cores inside this computer");
+	instance->Set(D_CPU_NUM, PlatformUtils::GetProcessorCount());
+	
+	instance->RegisterEntry("CPU Percent", D_CPU_PCT, "percent", "The percent of the CPU that is currently utalized", 0.5, []() {
+		return PlatformUtils::GetSystemCPUUsagePercent();
+	});
 }
 
 DataBank* DataBank::GetInstance() {
@@ -39,7 +70,62 @@ DataBank* DataBank::GetInstance() {
 	return s_instance;
 }
 
-void DataBank::RegisterEntry(std::string longName, std::string shortName, std::string units, std::string desc) {
+void replaceAll(std::string& str, const std::string& from, const std::string& to) {
+	if (from.empty())
+		return;
+	size_t start_pos = 0;
+	while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
+		str.replace(start_pos, from.length(), to);
+		start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
+	}
+}
+
+std::map<std::string, std::string> replaceUnits = { 
+	{"/s", " per second"}, 
+	{"mi", "miles"},
+	{"ft", "feet"},
+	{"s", "seconds"},
+	{"m", "meters"},
+	{"^2", " squared"},
+	{"o", "degrees"}
+};
+
+std::string makeLongUnits(std::string str) {
+	if (str == "s") return "seconds";//We need this line to return the plural
+	std::stringstream ss;
+	bool found = false;
+	for (int i = 0; i < str.length(); i++) {
+		for (auto it = replaceUnits.begin(); it != replaceUnits.end(); it++) {
+			std::pair<std::string, std::string> pair = *it;
+			std::string shortValue = pair.first, longValue = pair.second;
+			std::string subStr = str.substr(i, shortValue.length());
+			if (subStr == shortValue) {
+				ss << longValue;
+				i += shortValue.length() - 1;//-1 so that the ++ doesnt end up skipping a character
+				found = true;
+				break;
+			}
+		}
+		if (!found) {
+			ss << str[i];//Write the next character if it didnt match anything
+		}
+	}
+	return ss.str();
+}
+
+Datum* DataBank::GetDatum(std::string name) {
+	Datum* datum;
+	if (shortMap.find(name) == shortMap.end()) {
+		if (longMap.find(name) == longMap.end()) {
+			GS_CRITICAL("Name: {} not defined in databank!", name.c_str());
+			return nullptr;
+		}
+		return longMap[name];
+	}
+	return shortMap[name];
+}
+
+void DataBank::RegisterEntry(std::string longName, std::string shortName, std::string units, std::string desc, double delayTime, std::function<double()> getter) {
 	if (HasEntry(longName) || HasEntry(shortName)) {
 		GS_ERROR("Databank Entry Name: {} already exists!", longName.c_str());
 	} else {
@@ -50,9 +136,17 @@ void DataBank::RegisterEntry(std::string longName, std::string shortName, std::s
 		for (int i = shortName.length(); i < SHORT_NAME_LENGTH; i++) datum->shortName[i] = ' ';//Pad with spaces
 		datum->shortName[SHORT_NAME_LENGTH] = 0x00;
 
+		datum->longUnits = makeLongUnits(units);
+
+		if (getter == 0) {
+			datum->usesFunction = false;
+			datum->SetValue(-std::numeric_limits<double>::min());
+		} else {
+			datum->valueGetter = CachedFunction<double>(getter, delayTime);
+			datum->usesFunction = true;
+		}
 		datum->units = units;
 		datum->desc = desc;
-		datum->value = -std::numeric_limits<double>::min();
 		shortMap[shortName] = datum;
 		longMap[longName] = datum;
 	}

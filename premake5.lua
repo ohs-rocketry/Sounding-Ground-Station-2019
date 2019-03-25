@@ -16,6 +16,7 @@ IncludeDir["GLFW"] = "Ground Station/vendor/GLFW/include"
 IncludeDir["Glad"] = "Ground Station/vendor/Glad/include"
 IncludeDir["ImGui"] = "Ground Station/vendor/imgui"
 IncludeDir["glm"] = "Ground Station/vendor/glm"
+IncludeDir["Arduino"] = "C:/Users/Troy Neubauer/Documents/Rocketry/Code/Arduino"
 
 include "Ground Station/vendor/GLFW"
 include "Ground Station/vendor/Glad"
@@ -45,7 +46,8 @@ project "Ground Station"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.Arduino}"
 	}
 
 	links 
