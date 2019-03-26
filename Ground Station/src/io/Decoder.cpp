@@ -1,6 +1,8 @@
 #include "Decoder.h"
 #include "Log.h"
 
+Decoder* Decoder::s_Instance = nullptr;
+
 Decoder::Decoder() {
 	allDataFile = fopen("logs/All Serial.dat", "wb");
 	if (allDataFile == nullptr) {
@@ -9,7 +11,7 @@ Decoder::Decoder() {
 }
 
 void Decoder::Handle(SubPacketData data) {
-	int x = sizeof(SubPacketData);
+	
 }
 
 void Decoder::OnData(uint8_t* data, size_t size) {
@@ -33,4 +35,9 @@ void Decoder::OnData(uint8_t* data, size_t size) {
 	if (allDataFile != nullptr) {
 		fwrite(data, size, 1, allDataFile);// Write the bytes that we recieved
 	}
+}
+
+void Decoder::Exit() {
+	fclose(allDataFile);
+	GS_TRACE("Saved all serial file");
 }

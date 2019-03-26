@@ -14,6 +14,8 @@
 #include "util/PlatformUtils.h"
 #include "Engine.h"
 #include "Input.h"
+#include "SerialConnection.h"
+#include "io/Decoder.h"
 
 static void GLFWError(int error, const char* description) {
 	GS_ERROR("GLFW Error: ({}) {}", error, description);
@@ -23,6 +25,8 @@ int main(char** argc, unsigned int count) {
 	PlatformUtils::Init();
 	Log::Init();
 	DataBank::Init();
+	SerialConnection::Init();
+	Decoder decoder;
 
 	if (glfwInit() != GLFW_TRUE) {
 		GS_CRITICAL("Failed to initalize GLFW");
@@ -30,12 +34,6 @@ int main(char** argc, unsigned int count) {
 	} else {
 		GS_INFO("Initalized GLFW {}", glfwGetVersionString());
 	}
-	GS_CRITICAL("CRITICAL");
-	GS_ERROR("ERROR");
-	GS_WARN("Warn");
-	GS_INFO("info");
-	GS_DEBUG("debug");
-	GS_TRACE("trace");
 	float lastTime = glfwGetTime();
 	bool fullscreen = false;
 	GLFWwindow* window;
@@ -60,7 +58,7 @@ int main(char** argc, unsigned int count) {
 	glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
 	glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
 	glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-	GS_INFO("Window refresh rate: {}, RGB color buffer bits: [{}, {}, {}]", mode->refreshRate, mode->redBits, mode->greenBits, mode->blueBits);
+	GS_TRACE("Window refresh rate: {}, RGB color buffer bits: [{}, {}, {}]", mode->refreshRate, mode->redBits, mode->greenBits, mode->blueBits);
 	window = glfwCreateWindow(width, height, "Team 1800 Ground Station", nullptr, nullptr);
 	if (window) {
 		GS_TRACE("Window created successfully");
@@ -79,6 +77,7 @@ int main(char** argc, unsigned int count) {
 		GS_TRACE("Initalized Glad");
 	}
 	GS_INFO("Using OpenGL Version {}", glGetString(GL_VERSION));
+
 	Renderer* renderer = new Renderer(window);
 	while (!glfwWindowShouldClose(window)) {
 		float now = glfwGetTime(), delta = now - lastTime;
@@ -87,10 +86,16 @@ int main(char** argc, unsigned int count) {
 
 		renderer->Render(window);
 	}
+	GS_TRACE("Window closed");
 	glfwHideWindow(window);
 	delete renderer;
 	glfwDestroyWindow(window);
 	
+	GS_TRACE("Terminating GLFW");
 	glfwTerminate();
+
+	decoder.Exit();
+	SerialConnection::Exit();
+
 	return 0;
 }

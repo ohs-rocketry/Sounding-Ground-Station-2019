@@ -95,7 +95,6 @@
   <ItemGroup>
     <ClInclude Include="src\DataBank.h" />
     <ClInclude Include="src\Engine.h" />
-    <ClInclude Include="src\imgui\ImGuiSink.h" />
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\Log.h" />
     <ClInclude Include="src\SerialConnection.h" />
@@ -474,7 +473,6 @@
   <ItemGroup>
     <ClCompile Include="src\DataBank.cpp" />
     <ClCompile Include="src\Engine.cpp" />
-    <ClCompile Include="src\imgui\ImGuiSink.cpp" />
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\Main.cpp" />

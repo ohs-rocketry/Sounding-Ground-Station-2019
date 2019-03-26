@@ -3,7 +3,7 @@
 
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/sinks/basic_file_sink.h"
-#include "imgui/ImGuiSink.h"
+#include "util/Console.h"
 
 std::shared_ptr<spdlog::logger> Log::logger;
 
@@ -18,9 +18,9 @@ void Log::Init() {
 #endif
 	stdOut->set_pattern(consolePattern);
 
-	auto imgui = std::make_shared<imgui_sink>();
+	auto imgui = std::shared_ptr<Console>(Console::GetInstance());
 #ifdef GS_DEBUG_MODE
-	imgui->set_level(spdlog::level::trace);
+	imgui->set_level(spdlog::level::info);
 #else
 	imgui->set_level(spdlog::level::warn);
 #endif
