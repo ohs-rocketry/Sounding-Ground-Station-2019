@@ -10,6 +10,9 @@
     <Filter Include="src\io">
       <UniqueIdentifier>{F44D661C-E0EF-90F2-C9AA-A446B5EB1743}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\util">
+      <UniqueIdentifier>{BA5238CF-A61F-93DA-CF38-8182BB64C868}</UniqueIdentifier>
+    </Filter>
     <Filter Include="vendor">
       <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
     </Filter>
@@ -36,6 +39,12 @@
     <ClInclude Include="src\DataBank.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="src\Log.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -50,6 +59,18 @@
     </ClInclude>
     <ClInclude Include="src\io\Decoder.h">
       <Filter>src\io</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\CachedFunction.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\Console.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\Graph.h">
+      <Filter>src\util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\util\PlatformUtils.h">
+      <Filter>src\util</Filter>
     </ClInclude>
     <ClInclude Include="vendor\glm\glm\common.hpp">
       <Filter>vendor\glm\glm</Filter>
@@ -1143,15 +1164,15 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\util\PlatformUtils.h" />
-    <ClInclude Include="src\util\CachedFunction.h" />
-    <ClInclude Include="src\util\Graph.h" />
-    <ClInclude Include="src\Engine.h" />
-    <ClInclude Include="src\Input.h" />
-    <ClInclude Include="src\util\Console.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DataBank.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Log.cpp">
@@ -1175,10 +1196,14 @@
     <ClCompile Include="src\io\Decoder.cpp">
       <Filter>src\io</Filter>
     </ClCompile>
-    <ClCompile Include="src\util\PlatformUtils.cpp" />
-    <ClCompile Include="src\util\Graph.cpp" />
-    <ClCompile Include="src\Engine.cpp" />
-    <ClCompile Include="src\Input.cpp" />
-    <ClCompile Include="src\util\Console.cpp" />
+    <ClCompile Include="src\util\Console.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\Graph.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\PlatformUtils.cpp">
+      <Filter>src\util</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

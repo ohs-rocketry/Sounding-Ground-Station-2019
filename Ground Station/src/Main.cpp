@@ -25,9 +25,8 @@ int main(char** argc, unsigned int count) {
 	PlatformUtils::Init();
 	Log::Init();
 	DataBank::Init();
-	SerialConnection::Init();
-	Decoder decoder;
-
+	//SerialConnection::Init();
+	
 	if (glfwInit() != GLFW_TRUE) {
 		GS_CRITICAL("Failed to initalize GLFW");
 		return 1;
@@ -94,8 +93,7 @@ int main(char** argc, unsigned int count) {
 	GS_TRACE("Terminating GLFW");
 	glfwTerminate();
 
-	decoder.Exit();
-	SerialConnection::Exit();
+	//SerialConnection::Exit();
 
 	return 0;
 }

@@ -6,9 +6,6 @@
 
 using namespace std::chrono;
 
-enum ExpectedMagic {
-	YES, NO, DONT_CARE
-};
 
 class Decoder {
 public:
@@ -17,11 +14,10 @@ public:
 		return s_Instance;
 	}
 
-	Decoder();
-	void Exit();
-	void OnData(uint8_t* data, size_t size);// Called by the socket when new data arives
+	void OnPackets(uint8_t* data, size_t size);// Called by the socket when new data arives
 
-	void Handle(SubPacketData data);
+	void Handle(SubPacketData& data);
+	void Handle(HertzData& data);
 
 	inline milliseconds getCurrentTime() {// Returns the time in ms since epoch
 		return duration_cast<milliseconds>(system_clock::now().time_since_epoch());
@@ -30,9 +26,6 @@ public:
 private:
 	static Decoder* s_Instance;
 
-	uint8_t m_buffer[100000];//100K buffer for storing packets before they are handled
-	uint64_t m_timeAtZero;// The system epoch time in milliseconds when
-	uint64_t m_magicCount = 0;
-	ExpectedMagic m_expectedMagic = ExpectedMagic::DONT_CARE;
-	FILE* allDataFile;
+	uint64_t m_timeAtZero;// The system epoch time in milliseconds when the rocket's clock read 0
+	uint32_t m_magicCount = 0, m_payloadCount = 0, m_bufferIndex = 0;
 };

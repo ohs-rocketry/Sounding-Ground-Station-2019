@@ -1,0 +1,12 @@
+[Wed Mar 27 10:39:44 2019] [trace] Ground Station: Ground Station Logging Initalization Complete
+[Wed Mar 27 10:39:44 2019] [info] Ground Station: Initalized GLFW 3.3.0 Win32 WGL EGL VisualC
+[Wed Mar 27 10:39:44 2019] [trace] Ground Station: Creating GLFW window
+[Wed Mar 27 10:39:44 2019] [trace] Ground Station: Creating window on monitor name: Generic PnP Monitor
+[Wed Mar 27 10:39:44 2019] [trace] Ground Station: Physical width: 13.5433 in, height: 7.59843 in
+[Wed Mar 27 10:39:44 2019] [trace] Ground Station: Window Dimensions: 1440 X 810 px
+[Wed Mar 27 10:39:44 2019] [trace] Ground Station: Window refresh rate: 60, RGB color buffer bits: [8, 8, 8]
+[Wed Mar 27 10:39:44 2019] [trace] Ground Station: Window created successfully
+[Wed Mar 27 10:39:44 2019] [trace] Ground Station: Initalized Glad
+[Wed Mar 27 10:39:44 2019] [info] Ground Station: Using OpenGL Version 4.5.0 - Build 22.20.16.4749
+[Wed Mar 27 10:39:52 2019] [trace] Ground Station: Window closed
+[Wed Mar 27 10:39:52 2019] [trace] Ground Station: Terminating GLFW

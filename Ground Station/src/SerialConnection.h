@@ -10,6 +10,18 @@ private:
 public:
 	static void Init();
 	static void Exit();
+	bool ConfigureSerialPort(DWORD dwBaudRate, DWORD dwTimeOutInSec);
+	bool Read(uint8_t* buffer, uint64_t requested);
+
+	template<typename T>
+	T Read(DWORD& error) {
+		constexpr uint64_t bytes = sizeof(T);
+		uint8_t buffer[bytes];
+		error = Read(buffer, bytes);
+		T* tBuf = (T*) buffer;
+		return *tBuf;
+	}
+
 	SerialConnection();
 	~SerialConnection();
 
@@ -22,4 +34,6 @@ private:
 
 	bool m_isRunning = false;
 	std::thread* m_thread;
+
+	FILE* allDataFile;
 };
