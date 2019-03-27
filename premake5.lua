@@ -78,3 +78,57 @@ project "Ground Station"
 		runtime "Release"
 		optimize "On"
 
+
+project "imgui Test"
+	location "imgui Test"
+	kind "ConsoleApp"
+	language "C++"
+	staticruntime "off"
+
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
+	}
+
+	includedirs
+	{
+		"%{prj.name}/src",
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
+	}
+
+	links
+	{
+		"GLFW",
+		"Glad",
+		"ImGui",
+		"opengl32.lib",
+		"Pdh.lib"
+	}
+
+	filter "system:windows"
+		cppdialect "C++17"
+		systemversion "latest"
+
+		defines
+		{
+			"HZ_PLATFORM_WINDOWS",
+			"GLFW_INCLUDE_NONE"
+		}
+
+	filter "configurations:Debug"
+		runtime "Debug"
+		symbols "On"
+
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "On"
