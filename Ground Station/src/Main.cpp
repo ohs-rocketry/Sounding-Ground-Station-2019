@@ -25,7 +25,7 @@ int main(char** argc, unsigned int count) {
 	PlatformUtils::Init();
 	Log::Init();
 	DataBank::Init();
-	//SerialConnection::Init();
+	SerialConnection::Init();
 	
 	if (glfwInit() != GLFW_TRUE) {
 		GS_CRITICAL("Failed to initalize GLFW");
@@ -93,7 +93,7 @@ int main(char** argc, unsigned int count) {
 	GS_TRACE("Terminating GLFW");
 	glfwTerminate();
 
-	//SerialConnection::Exit();
+	SerialConnection::Exit();
 
 	return 0;
 }

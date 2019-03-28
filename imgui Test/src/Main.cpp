@@ -15,9 +15,6 @@
 #include "examples/imgui_impl_glfw.h"
 #include "examples/imgui_impl_glfw.cpp"
 
-
-
-
 static void GLFWError(int error, const char* description) {
 	
 }
@@ -75,19 +72,18 @@ int main(char** argc, unsigned int count) {
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init();
 
-	
 	while (!glfwWindowShouldClose(window)) {
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		ImGui::Begin("Test A", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings);
+		ImGui::Begin("Test A", NULL, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_AlwaysAutoResize);
 		ImGui::Text("This is AAAAAAAA");
 		ImGui::Text("This is AAAAAAAA");
 		ImGui::Text("This is AAAAAAAA");
 		ImGui::End();
 
-		ImGui::Begin("Test B", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings);
+		ImGui::Begin("Test B", NULL, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_AlwaysAutoResize);
 		ImGui::Text("This is BBBBBBB");
 		ImGui::Text("This is BBBBBBB");
 		ImGui::Text("This is BBBBBBBBB");

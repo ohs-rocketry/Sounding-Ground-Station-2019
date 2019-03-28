@@ -32,8 +32,6 @@ void Renderer::Render(GLFWwindow* window) {
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
-	ImGui::ShowDemoWindow();
-
 	altitude->Update();
 
 	position->Render();
@@ -115,10 +113,12 @@ Renderer::Renderer(GLFWwindow* window) {
 }
 
 //Wrapper for ImGui::Begin. Styles the window in the normal Ground Station way
-bool Renderer::GSBegin(const char* name, bool* p_open, ImGuiWindowFlags flags) {
+bool Renderer::GSBegin(const char* name, bool resizable, ImGuiWindowFlags flags, bool* p_open) {
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.5f);
 	ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-	return ImGui::Begin(name, p_open, ImGuiWindowFlags_NoCollapse | /*ImGuiWindowFlags_NoResize |*/ flags);
+	flags |= ImGuiWindowFlags_NoCollapse;
+	if (!resizable) flags |= ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize;
+	return ImGui::Begin(name, p_open, flags);
 }
 
 void Renderer::GSEnd() {

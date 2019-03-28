@@ -69,12 +69,12 @@ project "Ground Station"
 		}
 
 	filter "configurations:Debug"
-		defines "GS_DEBUG"
+		defines "GS_DEBUG_MODE"
 		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
-		defines "GS_RELEASE"
+		defines "GS_RELEASE_MODE"
 		runtime "Release"
 		optimize "On"
 

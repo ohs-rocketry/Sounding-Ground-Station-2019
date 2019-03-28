@@ -8,7 +8,7 @@ public:
 	Renderer(GLFWwindow* window);
 	void Render(GLFWwindow* window);
 
-	static bool GSBegin(const char* name, bool* p_open = NULL, ImGuiWindowFlags flags = 0);
+	static bool GSBegin(const char* name, bool resizable = false, ImGuiWindowFlags flags = 0, bool* p_open = nullptr);
 	static void GSEnd();
 
 

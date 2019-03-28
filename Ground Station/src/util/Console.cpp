@@ -1,13 +1,13 @@
 #include "Console.h"
 
 #include "imgui/Renderer.h"
+#include "Log.h"
 
 #include <spdlog/spdlog.h>
 
 
 Console* Console::s_instance = new Console();
 
-#include "Log.h"
 
 static ImVec4 colors[] = { {0.5f, 0.5f, 0.5f, 1.0f}, {0, 0, 1.0f, 1.0f}, {0, 1.0f, 0, 1.0f}, {1.0f, 1.0f, 0, 1.0f}, {1.0f, 0, 0, 1.0f}, {1.0f, 1.0f, 1.0f, 1.0f} };
 static unsigned int bgColors[] = { 0, 0, 0, 0, 0, 0xFF0000FF };//AGBR?
@@ -92,7 +92,7 @@ void Console::DrawLevel(const char* name, spdlog::level::level_enum level) {
 
 void Console::Render() {
 	ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
-	Renderer::GSBegin("Console");
+	Renderer::GSBegin("Console", true);
 
 	ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
 	static ImGuiTextFilter filter;
