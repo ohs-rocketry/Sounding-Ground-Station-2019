@@ -54,6 +54,12 @@
     <ClInclude Include="src\imgui\Renderer.h">
       <Filter>src\imgui</Filter>
     </ClInclude>
+    <ClInclude Include="src\io\DataProcessor.h">
+      <Filter>src\io</Filter>
+    </ClInclude>
+    <ClInclude Include="src\io\SerialConnection.h">
+      <Filter>src\io</Filter>
+    </ClInclude>
     <ClInclude Include="src\util\CachedFunction.h">
       <Filter>src\util</Filter>
     </ClInclude>
@@ -1158,10 +1164,6 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\io\SerialConnection.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\io\DataProcessor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DataBank.cpp">
@@ -1188,6 +1190,12 @@
     <ClCompile Include="src\imgui\Renderer.cpp">
       <Filter>src\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="src\io\DataProcessor.cpp">
+      <Filter>src\io</Filter>
+    </ClCompile>
+    <ClCompile Include="src\io\SerialConnection.cpp">
+      <Filter>src\io</Filter>
+    </ClCompile>
     <ClCompile Include="src\util\Console.cpp">
       <Filter>src\util</Filter>
     </ClCompile>
@@ -1197,9 +1205,5 @@
     <ClCompile Include="src\util\PlatformUtils.cpp">
       <Filter>src\util</Filter>
     </ClCompile>
-    <ClCompile Include="src\io\SerialConnection.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\io\DataProcessor.cpp" />
   </ItemGroup>
 </Project>

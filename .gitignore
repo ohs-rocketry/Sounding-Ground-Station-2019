@@ -3,6 +3,3 @@
 bin/
 bin-int/
 
-# Files
-*.user
-Ground Station/vendor/
