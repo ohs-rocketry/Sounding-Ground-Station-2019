@@ -1,71 +1,38 @@
-[Thu Mar 28 17:26:24 2019] [trace] Ground Station: Ground Station Logging Initalization Complete
-[Thu Mar 28 17:26:24 2019] [trace] Ground Station: Creating serial thread
-[Thu Mar 28 17:26:24 2019] [trace] Ground Station: Starting serial thread
-[Thu Mar 28 17:26:24 2019] [trace] Ground Station: Beginning serial thread
-[Thu Mar 28 17:26:24 2019] [info] Ground Station: Opened port 6 full name: "\\.\COM6", address: 0x36c
-[Thu Mar 28 17:26:24 2019] [trace] Ground Station: Configuring serial port
-[Thu Mar 28 17:26:24 2019] [info] Ground Station: Initalized GLFW 3.3.0 Win32 WGL EGL VisualC
-[Thu Mar 28 17:26:24 2019] [trace] Ground Station: Creating GLFW window
-[Thu Mar 28 17:26:24 2019] [trace] Ground Station: Creating window on monitor name: Generic PnP Monitor
-[Thu Mar 28 17:26:24 2019] [trace] Ground Station: Physical width: 20.5118 in, height: 11.5354 in
-[Thu Mar 28 17:26:24 2019] [trace] Ground Station: Window Dimensions: 1440 X 810 px
-[Thu Mar 28 17:26:24 2019] [trace] Ground Station: Window refresh rate: 60, RGB color buffer bits: [8, 8, 8]
-[Thu Mar 28 17:26:24 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:26:25 2019] [trace] Ground Station: Window created successfully
-[Thu Mar 28 17:26:25 2019] [trace] Ground Station: Initalized Glad
-[Thu Mar 28 17:26:25 2019] [info] Ground Station: Using OpenGL Version 4.6.0 NVIDIA 419.35
-[Thu Mar 28 17:26:25 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:26:26 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:26:27 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:26:28 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:26:29 2019] [error] Ground Station: Serial Port Wait Error: The I/O operation has been aborted because of either a thread exit or an application request.
+[Fri Mar 29 13:38:51 2019] [trace] Ground Station: Ground Station Logging Initalization Complete
+[Fri Mar 29 13:38:51 2019] [trace] Ground Station: Creating serial thread
+[Fri Mar 29 13:38:51 2019] [trace] Ground Station: Starting serial thread
+[Fri Mar 29 13:38:51 2019] [trace] Ground Station: Beginning serial thread
+[Fri Mar 29 13:38:51 2019] [info] Ground Station: Opened port 6 full name: "\\.\COM6", address: 0x360
+[Fri Mar 29 13:38:51 2019] [trace] Ground Station: Configuring serial port
+[Fri Mar 29 13:38:51 2019] [info] Ground Station: Initalized GLFW 3.3.0 Win32 WGL EGL VisualC
+[Fri Mar 29 13:38:51 2019] [trace] Ground Station: Creating GLFW window
+[Fri Mar 29 13:38:51 2019] [trace] Ground Station: Creating window on monitor name: Generic PnP Monitor
+[Fri Mar 29 13:38:51 2019] [trace] Ground Station: Physical width: 13.5433 in, height: 7.59843 in
+[Fri Mar 29 13:38:51 2019] [trace] Ground Station: Window Dimensions: 1920 X 1080 px
+[Fri Mar 29 13:38:51 2019] [trace] Ground Station: Window refresh rate: 60, RGB color buffer bits: [8, 8, 8]
+[Fri Mar 29 13:38:51 2019] [trace] Ground Station: Window created successfully
+[Fri Mar 29 13:38:51 2019] [trace] Ground Station: Time at 0 1553881049841
+[Fri Mar 29 13:38:52 2019] [warning] Ground Station: Computed checksum doesn't match expected checksum! Expected 0x55, Computed 0x22
+[Fri Mar 29 13:38:52 2019] [trace] Ground Station: Initalized Glad
+[Fri Mar 29 13:38:52 2019] [info] Ground Station: Using OpenGL Version 4.5.0 - Build 22.20.16.4749
+[Fri Mar 29 13:39:12 2019] [error] Ground Station: Serial port read error: The I/O operation has been aborted because of either a thread exit or an application request.
 
-[Thu Mar 28 17:26:29 2019] [error] Ground Station: READ FAILED
-[Thu Mar 28 17:26:29 2019] [warning] Ground Station: Lost port
-[Thu Mar 28 17:26:38 2019] [info] Ground Station: Opened port 6 full name: "\\.\COM6", address: 0x620
-[Thu Mar 28 17:26:38 2019] [trace] Ground Station: Configuring serial port
-[Thu Mar 28 17:26:47 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:26:48 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:26:49 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:26:50 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:26:51 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:26:52 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:26:53 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:26:54 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:26:55 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:26:56 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:26:57 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:26:58 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:26:59 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:00 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:01 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:02 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:03 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:04 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:05 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:06 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:07 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:08 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:09 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:10 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:11 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:12 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:13 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:14 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:15 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:16 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:17 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:18 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:19 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:20 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:21 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:22 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:23 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:24 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:24 2019] [trace] Ground Station: Window closed
-[Thu Mar 28 17:27:24 2019] [trace] Ground Station: Terminating GLFW
-[Thu Mar 28 17:27:24 2019] [trace] Ground Station: Closing serial connection
-[Thu Mar 28 17:27:25 2019] [trace] Ground Station: Done with reading 9 bytes
-[Thu Mar 28 17:27:25 2019] [trace] Ground Station: Saved all serial file
-[Thu Mar 28 17:27:25 2019] [trace] Ground Station: Serial communication thread exiting
-[Thu Mar 28 17:27:25 2019] [trace] Ground Station: Serial port clean-up completed
+[Fri Mar 29 13:39:12 2019] [warning] Ground Station: Lost port
+[Fri Mar 29 13:39:51 2019] [info] Ground Station: Opened port 6 full name: "\\.\COM6", address: 0x5c0
+[Fri Mar 29 13:39:51 2019] [trace] Ground Station: Configuring serial port
+[Fri Mar 29 13:40:01 2019] [critical] Ground Station: ROCKET RESATRTED. LAST PACKET IS AFTER THE NEXT PACKET
+[Fri Mar 29 13:40:01 2019] [critical] Ground Station: EXPECT DATA LOSS
+[Fri Mar 29 13:41:30 2019] [error] Ground Station: Serial port read error: The I/O operation has been aborted because of either a thread exit or an application request.
+
+[Fri Mar 29 13:41:30 2019] [warning] Ground Station: Lost port
+[Fri Mar 29 13:41:32 2019] [info] Ground Station: Opened port 6 full name: "\\.\COM6", address: 0x54c
+[Fri Mar 29 13:41:32 2019] [trace] Ground Station: Configuring serial port
+[Fri Mar 29 13:41:42 2019] [critical] Ground Station: ROCKET RESATRTED. LAST PACKET IS AFTER THE NEXT PACKET
+[Fri Mar 29 13:41:42 2019] [critical] Ground Station: EXPECT DATA LOSS
+[Fri Mar 29 13:42:18 2019] [trace] Ground Station: Window closed
+[Fri Mar 29 13:42:18 2019] [trace] Ground Station: Terminating GLFW
+[Fri Mar 29 13:42:18 2019] [trace] Ground Station: Closing serial connection
+[Fri Mar 29 13:42:18 2019] [trace] Ground Station: Closed serial port successfully
+[Fri Mar 29 13:42:18 2019] [trace] Ground Station: Saved all serial file
+[Fri Mar 29 13:42:18 2019] [trace] Ground Station: Serial communication thread exiting
+[Fri Mar 29 13:42:18 2019] [trace] Ground Station: Serial port clean-up completed

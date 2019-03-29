@@ -133,8 +133,8 @@ void Graph::Render(float width, float height) {
 	float(*valuesGetter)(void*, int) = (m_DisplayMode == GraphDisplayMode::Linear) ? GetLinearData : GetLogData;
 	ImGui::PlotLines("", valuesGetter, m_Data, Graph::currentTotalSamples, 0, m_Name, FLT_MAX, FLT_MAX, {width, height});
 	ImGui::SameLine();
-	std::string max = std::to_string(GetMax(m_Data, TotalSamples()));
-	ImGui::Text(max.c_str());
+	std::string current = std::to_string(m_Data[currentSample]);
+	ImGui::Text(current.c_str());
 	Renderer::GSEnd();
 }
 

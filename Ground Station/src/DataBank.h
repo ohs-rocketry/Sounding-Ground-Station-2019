@@ -10,18 +10,15 @@
 
 #define SHORT_NAME_LENGTH 7
 
-#define D_X "X"
-#define D_Y "Y"
-#define D_Z "Z"
+#define D_PACKET "Packet"
+#define D_SPACKET "SPacket"
 
-#define D_VX "VX"
-#define D_VY "VY"
-#define D_VZ "VZ"
+#define D_ACC_SPD	"ACC SPD"
+#define D_PIT_SPD	"PIT SPD"
+#define D_ALT		"ALT"
+#define D_ACCEL		"ACCEL"
 
-#define D_AX "AX"
-#define D_AY "AY"
-#define D_AZ "AZ"
-
+#define D_BOOT_TM	"BOOT TM"
 #define D_TIME		"TIME T:"
 #define D_E_APOGE	"E APOGE"
 #define D_TT_APO	"TT APO "

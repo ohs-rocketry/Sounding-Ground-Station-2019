@@ -10,10 +10,13 @@ private:
 public:
 	static void Init();
 	static void Exit();
-	bool ConfigureSerialPort(DWORD dwBaudRate, DWORD dwTimeOutInSec);
+	bool ConfigureSerialPort(DWORD dwBaudRate);
 
 	//Reads exactly requested number of bytes into the buffer
-	bool Read(uint8_t* buffer, uint64_t requested);
+	bool Read(void* buffer, uint64_t requested, bool skipChecksum = false);
+	
+	//reads and returns a single byte (0-255) or -1 if an error occured
+	uint32_t ReadByte(bool skipChecksum = false);
 
 	//Waits for the specified byte to occus in sequence x amount of times.
 	//Returns false normally. True indicates some kind of I/O error
@@ -39,6 +42,7 @@ private:
 private:
 	HANDLE m_port = INVALID_HANDLE_VALUE;
 	bool m_portOpen = false;
+	uint8_t m_checksum;
 
 	bool m_isRunning = false;
 	std::thread* m_thread;

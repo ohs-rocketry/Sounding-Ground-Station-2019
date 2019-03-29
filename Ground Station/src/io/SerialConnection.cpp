@@ -1,9 +1,11 @@
 
 #include "SerialConnection.h"
 #include "Log.h"
-#include "io/Decoder.h"
 
 #include <string>
+
+#include "Opcodes.h"
+#include "DataProcessor.h"
 
 SerialConnection* SerialConnection::s_Instance = nullptr;
 
@@ -63,7 +65,7 @@ SerialConnection::SerialConnection() {
 }
 
 //Returns true on failure
-bool SerialConnection::ConfigureSerialPort(DWORD dwBaudRate, DWORD dwTimeOutInSec) {
+bool SerialConnection::ConfigureSerialPort(DWORD dwBaudRate) {
 	if (!SetupComm(m_port, 1024, 1024)) return true;
 	GS_TRACE("Configuring serial port");
 
@@ -81,11 +83,11 @@ bool SerialConnection::ConfigureSerialPort(DWORD dwBaudRate, DWORD dwTimeOutInSe
 	} if (!SetCommState(m_port, &dcbConfig)) return true;
 
 	COMMTIMEOUTS commTimeout;
-	if (GetCommTimeouts(m_port, &commTimeout)) {
-		commTimeout.ReadIntervalTimeout = 1000 * dwTimeOutInSec;
-		commTimeout.ReadTotalTimeoutConstant = 1000 * dwTimeOutInSec;
+	if (GetCommTimeouts(m_port, &commTimeout)) {//Infinate timeout
+		commTimeout.ReadIntervalTimeout = 0;
+		commTimeout.ReadTotalTimeoutConstant = 0;
 		commTimeout.ReadTotalTimeoutMultiplier = 0;
-		commTimeout.WriteTotalTimeoutConstant = 1000 * dwTimeOutInSec;
+		commTimeout.WriteTotalTimeoutConstant = 0;
 		commTimeout.WriteTotalTimeoutMultiplier = 0;
 	} else {
 		GS_ERROR("Unable to get serial timeouts!");
@@ -104,6 +106,8 @@ bool SerialConnection::ConfigureSerialPort(DWORD dwBaudRate, DWORD dwTimeOutInSe
 
 char chars[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
+bool waitForMagic = true;
+
 void SerialConnection::Run() {
 	GS_TRACE("Beginning serial thread");
 	while (m_isRunning) {
@@ -118,68 +122,109 @@ void SerialConnection::Run() {
 				if (m_port != INVALID_HANDLE_VALUE) {
 					GS_INFO("Opened port {} full name: \"{}\", address: {}", i, std::string(portName.begin(), portName.end()), (void*) m_port);
 					m_portOpen = true;
-					ConfigureSerialPort(115200, 60);
+					ConfigureSerialPort(115200);
 					break;
 				}
 			}
-		} else {
-			uint8_t buffer[9];
-			if (Read(buffer, sizeof(buffer))) {
-				GS_ERROR("READ FAILED");
-			} else {
-				/*Prints out data recieved
-				std::string string((const char*) buffer, sizeof(buffer));
-				string += " | ";
-				for (int i = 0; i < sizeof(buffer); i++)
-					string += std::string(" ") + chars[buffer[i] >> 4] + chars[buffer[i] & 0xF];
-				GS_INFO("DATA: {}", string);*/
+		} else {//The port is valid
+			
+			if (waitForMagic) {
+				if (WaitFor(MAGIC_BYTE, MAGIC_COUNT)) continue;
+			}
+			waitForMagic = false;
+			uint32_t packetID = ReadByte();
+			if (packetID == -1) continue;
+			switch (packetID) {
+			case HERTZ_DATA_ID:
+			{
+				HertzData data;
+				if (Read(&data, sizeof(HertzData))) continue;
+				DataProcessor::Process(data);
+				break;
+			}
+			case SUB_PACKET_DATA_ID:
+			{
+				SubPacketData data;
+				if (Read(&data, sizeof(SubPacketData))) continue;
+				DataProcessor::Add(data);
+				break;
+			}
+			case END_OF_PACKET_ID:
+			{
+				uint32_t expectedChecksum = ReadByte(true);//Dont sum the actual checksum byte
+				if (expectedChecksum == -1) continue;
+				if (expectedChecksum != m_checksum) {
+					GS_WARN("Computed checksum doesn't match expected checksum! Expected 0x{:x}, Computed 0x{:x}", expectedChecksum, m_checksum);
+				} else {
+					//Log good health
+				}
+				m_checksum = 0;//Reset for next time
+				waitForMagic = true;//Wait for the next packet
+				fflush(allDataFile);//This thread has plenty of time to wait for the next packet so flush in case bad thing happen th the process
+				break;
+			}
+			case END_OF_STREAM_ID:
+			{
+				GS_INFO("Rocket says end of stream!");
+				break;
+			}
+			default:
+				GS_WARN("Encountered unknown packet id: 0x{:x}", packetID);
+				waitForMagic = true;//We are off track so wait for the next packet
+				break;
 			}
 		}
 	}
 	fclose(allDataFile);
+	if (CloseHandle(m_port)) {
+		GS_TRACE("Closed serial port successfully");
+	} else {
+		GS_ERROR("Failed serial port: {}", GetLastErrorAsString());
+	}
 	GS_TRACE("Saved all serial file");
 	GS_TRACE("Serial communication thread exiting");
 }
 
-bool SerialConnection::Read(uint8_t* buffer, uint64_t requested) {
+bool SerialConnection::Read(void* buffer, uint64_t requested, bool skipChecksum) {
 	DWORD dwEventMask;
 	uint64_t read = 0;
 
-	if (!SetCommMask(m_port, EV_RXCHAR)) /* Setting Event Type */
-		return true;//Fail
-
+	/*if (!SetCommMask(m_port, EV_RXCHAR))
+		return true;//Fail*/
+	uint8_t* buf = static_cast<uint8_t*>(buffer);
 	while (requested != read) {
-		bool waitStatus = WaitCommEvent(m_port, &dwEventMask, nullptr);
-		if (waitStatus) {
-			DWORD bytesRead = 0;
-			uint64_t neededBytes = requested - read;
-			if (ReadFile(m_port, buffer, neededBytes, &bytesRead, nullptr) != 0) {
-				if (bytesRead > 0) {
-					read += bytesRead;
+		DWORD bytesRead = 0;
+		uint64_t neededBytes = requested - read;
+		if (ReadFile(m_port, buffer, neededBytes, &bytesRead, nullptr) != 0) {
+			fwrite(buffer, bytesRead, 1, allDataFile);
+			if (!skipChecksum) {
+				for (int i = 0; i < bytesRead; i++) {
+					m_checksum += buf[i];
 				}
-			} else {
-				GS_ERROR("Serial port read error: {}", GetLastErrorAsString());
-				m_portOpen = false;
-				return true;//fail
 			}
-
+			if (bytesRead > 0) {
+				read += bytesRead;
+			}
 		} else {
-			GS_ERROR("Serial Port Wait Error: {}", GetLastErrorAsString());
+			GS_ERROR("Serial port read error: {}", GetLastErrorAsString());
 			m_portOpen = false;
-			return true;
+			return true;//fail
 		}
 	}
-	GS_TRACE("Done with reading {} bytes", requested);
 	return false;//Success
 }
 
-bool SerialConnection::WaitFor(uint8_t lookFor, uint32_t times) {
+uint32_t SerialConnection::ReadByte(bool skipChecksum) {
 	uint8_t byte;
+	if (Read(&byte, 1, skipChecksum)) return -1;
+	return byte;
+}
+
+bool SerialConnection::WaitFor(uint8_t lookFor, uint32_t times) {
 	uint32_t count = 0;
 	while (count < times) {
-		if (Read(&byte, 1)) {
-			return true;//Errors will be logged in Read() so no need to print an error message here
-		}
+		uint32_t byte = ReadByte();
+		if (byte == -1) return true;
 		if (byte == lookFor) count++;
 		else count = 0;
 	}//Will return when count == times

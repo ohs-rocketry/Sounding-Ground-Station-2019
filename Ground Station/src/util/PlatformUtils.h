@@ -1,5 +1,9 @@
 #pragma once
 
+#include <chrono>
+
+using namespace std::chrono;
+
 class PlatformUtils {
 public:
 	static void Init();
@@ -18,5 +22,8 @@ public:
 
 	static int GetProcessorCount();
 	static const char* GetCPUBrandString();
+
+	static milliseconds GetSystemTime();
+
 };
 

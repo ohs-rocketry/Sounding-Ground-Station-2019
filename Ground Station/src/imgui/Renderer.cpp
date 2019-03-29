@@ -6,6 +6,7 @@
 #include "Engine.h"
 #include "Input.h"
 #include "util/Console.h"
+#include "io/DataProcessor.h"
 
 #include <algorithm> 
 #include <examples/imgui_impl_glfw.h>
@@ -13,10 +14,15 @@
 
 #include <glad/glad.h>
 
-DisplayGroup* position;
+DisplayGroup* rocket;
 DisplayGroup* orbit;
 DisplayGroup* sysInfo;
+DisplayGroup* telemetry;
+
 Graph* altitude;
+Graph* acceleration;
+Graph* pitotSpeed;
+Graph* accSpeed;
 
 ImFont* Renderer::numFont;
 ImFont* Renderer::textFont;
@@ -25,19 +31,29 @@ ImFont* Renderer::arialFont;
 void Renderer::Render(GLFWwindow* window) {
 	glfwPollEvents();
 	
-	DataBank::GetInstance()->Set("X", Engine::GetDeltaTime());
-	if (!Input::IsKeyPressed(GLFW_KEY_SPACE)) DataBank::GetInstance()->Set("Y", Engine::GetTime());
-	
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
 	altitude->Update();
+	acceleration->Update();
+	pitotSpeed->Update();
+	accSpeed->Update();
+	DataProcessor::Update();
 
-	position->Render();
+	rocket->Render();
 	orbit->Render();
 	sysInfo->Render();
-	altitude->Render(400, 120);
+	telemetry->Render();
+
+	int graphWidth = 350, graphHeight = 80;
+
+	altitude->Render(graphWidth, graphHeight);
+	acceleration->Render(graphWidth, graphHeight);
+	pitotSpeed->Render(graphWidth, graphHeight);
+	accSpeed->Render(graphWidth, graphHeight);
+	
+	
 	Console::GetInstance()->Render();
 
 	ImGui::Render();
@@ -63,22 +79,6 @@ static const ImWchar ranges[] = {
 	0,
 };
 
-float TestFunction() {
-	float time = Engine::GetTime() - 5.0f;
-	if (time < 0) {
-		return 0;
-	} else if (time < 14.8) {
-		return -14.623 * time * (time - 22);
-	} else {
-		return std::max(2000 - 30 * time, 0.0f);
-	}
-}
-
-float GetValue() {
-	float value = TestFunction();
-	return value;
-}
-
 Renderer::Renderer(GLFWwindow* window) {
 	ImGui::CreateContext();
 
@@ -99,13 +99,27 @@ Renderer::Renderer(GLFWwindow* window) {
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init();
 
-	position = new DisplayGroup("Position", { "#POSITION", "X", "Y", "Z", "#VELOCITY", "VX", "VY", "VZ", "#ACCELERATION", "AX", "AY", "AZ" });
+	rocket = new DisplayGroup("Rocket", { D_ACC_SPD, D_PIT_SPD, D_ALT, D_ACCEL });
 	orbit = new DisplayGroup("Orbit", { D_TIME, D_E_APOGE, D_TT_APO, D_SMA, D_ECCN, D_INC, D_PEROID, D_VEL, D_TRN_HGT, D_LAT, D_LNG, D_HEADING, D_VERTSPD, D_HORZSPD });
 	sysInfo = new DisplayGroup("System Info", { "#Virtual Memory Info", D_GS_VMem, D_SYS_VMem, D_T_VMem, "#RAM Info", D_GS_RAM, D_SYS_RAM, D_T_RAM, "#CPU Info", D_CPU_NUM, D_CPU_PCT });
+	telemetry = new DisplayGroup("Telemetry", { D_PACKET, D_SPACKET });
 
-	altitude = new Graph("Y", 60, 15);
+
+	accSpeed = new Graph(D_ACC_SPD, 60, 15);
+	accSpeed->SetDataMode(GraphDataMode::Average);
+	accSpeed->SetDisplayMode(GraphDisplayMode::Linear);
+
+	pitotSpeed = new Graph(D_PIT_SPD, 60, 15);
+	pitotSpeed->SetDataMode(GraphDataMode::Average);
+	pitotSpeed->SetDisplayMode(GraphDisplayMode::Linear);
+
+	altitude = new Graph(D_ALT, 60, 15);
 	altitude->SetDataMode(GraphDataMode::Average);
 	altitude->SetDisplayMode(GraphDisplayMode::Linear);
+
+	acceleration = new Graph(D_ACCEL, 60, 15);
+	acceleration->SetDataMode(GraphDataMode::Average);
+	acceleration->SetDisplayMode(GraphDisplayMode::Linear);
 
 	numFont = io.Fonts->AddFontFromFileTTF("./fonts/B612Mono-Bold.ttf", 16.0f, nullptr, ranges);
 	textFont = io.Fonts->AddFontFromFileTTF("./fonts/B612.ttf", 16.0f, nullptr, ranges);
@@ -128,7 +142,13 @@ void Renderer::GSEnd() {
 }
 
 Renderer::~Renderer() {
-	delete position;
+	delete rocket;
 	delete orbit;
 	delete sysInfo;
+	delete telemetry;
+
+	delete altitude;
+	delete acceleration;
+	delete pitotSpeed;
+	delete accSpeed;
 }

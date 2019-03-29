@@ -14,16 +14,16 @@
 #include "util/PlatformUtils.h"
 #include "Engine.h"
 #include "Input.h"
-#include "SerialConnection.h"
-#include "io/Decoder.h"
+#include "io/SerialConnection.h"
 
 static void GLFWError(int error, const char* description) {
 	GS_ERROR("GLFW Error: ({}) {}", error, description);
 }
 
+
 int main(char** argc, unsigned int count) {
-	PlatformUtils::Init();
 	Log::Init();
+	PlatformUtils::Init();
 	DataBank::Init();
 	SerialConnection::Init();
 	
@@ -34,7 +34,7 @@ int main(char** argc, unsigned int count) {
 		GS_INFO("Initalized GLFW {}", glfwGetVersionString());
 	}
 	float lastTime = glfwGetTime();
-	bool fullscreen = false;
+	bool fullscreen = true;
 	GLFWwindow* window;
 	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 	const GLFWvidmode* mode = glfwGetVideoMode(monitor);

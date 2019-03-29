@@ -144,3 +144,8 @@ const char* PlatformUtils::GetCPUBrandString() {
 	}
 	return cpuBrandString;
 }
+
+milliseconds PlatformUtils::GetSystemTime() {
+	return duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+}
+

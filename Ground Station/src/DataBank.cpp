@@ -10,18 +10,16 @@ DataBank* DataBank::s_instance = nullptr;
 
 void DataBank::Init() {
 	DataBank* instance = GetInstance();
-	instance->RegisterEntry("X", "ft", "X position");
-	instance->RegisterEntry("Y", "ft", "Y position");
-	instance->RegisterEntry("Z", "ft", "Z position");
 
-	instance->RegisterEntry("VX", "ft/s", "X velocity");
-	instance->RegisterEntry("VY", "ft/s", "Y velocity");
-	instance->RegisterEntry("VZ", "ft/s", "Z velocity");
+	instance->RegisterEntry("Packet Count",			D_PACKET,  "packets", "The current packet number");
+	instance->RegisterEntry("Sub-Packet Count",		D_SPACKET, "packets", "The current sub-packet number");
 
-	instance->RegisterEntry("AX", "ft/s^2", "X acceleration");
-	instance->RegisterEntry("AY", "ft/s^2", "Y acceleration");
-	instance->RegisterEntry("AZ", "ft/s^2", "Z acceleration");
+	instance->RegisterEntry("Accelerometer Speed",	D_ACC_SPD,    "ft/s", "The change in position per second from the accelerometer");
+	instance->RegisterEntry("Pitot Speed",			D_PIT_SPD,    "ft/s", "The change in position per second from the pitot tube");
+	instance->RegisterEntry("Altitude",				D_ALT,          "ft", "The current altitude from the altimeter");
+	instance->RegisterEntry("Acceleration",			D_ACCEL,    "ft/s^2", "The change in speed per second from the accelerometer");
 
+	instance->RegisterEntry("Boot Time",			D_BOOT_TM,       "s", "Time since boot");
 	instance->RegisterEntry("Mission Time",         D_TIME,          "s", "Time since launch");
 	instance->RegisterEntry("Apogee Height",        D_E_APOGE,      "ft", "The rocket's projected apogee based on its velocity");
 	instance->RegisterEntry("Time to Apogee",       D_TT_APO,        "s", "The time until the rocket's projected perigee");
