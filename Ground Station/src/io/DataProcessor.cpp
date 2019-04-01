@@ -39,13 +39,146 @@ void DataProcessor::Update() {
 
 void DataProcessor::Process(const HertzData& data) {
 	if (m_timeAtZero == milliseconds::max()) {//If we dont have the zero time yet
-		m_timeAtZero = PlatformUtils::GetSystemTime() - milliseconds(data.millis);//The current time minus the time since 0
+		//The current time minus the time since 0
+		m_timeAtZero = PlatformUtils::GetSystemTime() - milliseconds(data.millis);
 		GS_TRACE("Time at 0 {}", m_timeAtZero.count());
-	} else if(lastPacketMillis > data.millis) {//The rocket "went back in time"
+	} else if(lastPacketMillis > data.millis) {//The rocket "went back in time" 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		GS_CRITICAL("ROCKET RESATRTED. LAST PACKET IS AFTER THE NEXT PACKET");
 		GS_CRITICAL("EXPECT DATA LOSS");
-	} else {
-		//GS_INFO("Good stuff. Delta: {}", data.millis - lastPacketMillis);
+		m_timeAtZero = PlatformUtils::GetSystemTime() - milliseconds(data.millis);
 	}
 	
 	lastPacketMillis = data.millis;

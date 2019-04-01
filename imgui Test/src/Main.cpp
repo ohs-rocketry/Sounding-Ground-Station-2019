@@ -77,6 +77,8 @@ int main(char** argc, unsigned int count) {
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.5f);
+		ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
 		ImGui::Begin("Test A", NULL, ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_AlwaysAutoResize);
 		ImGui::Text("This is AAAAAAAA");
 		ImGui::Text("This is AAAAAAAA");
@@ -89,6 +91,8 @@ int main(char** argc, unsigned int count) {
 		ImGui::Text("This is BBBBBBBBB");
 		ImGui::Text("This is BBBBBBBBB");
 		ImGui::End();
+		ImGui::PopStyleVar();
+		ImGui::PopStyleColor();
 
 		ImGui::Render();
 		int display_w, display_h;
