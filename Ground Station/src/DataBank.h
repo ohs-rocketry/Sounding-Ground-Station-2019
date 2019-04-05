@@ -17,6 +17,9 @@
 #define D_PIT_SPD	"PIT SPD"
 #define D_ALT		"ALT"
 #define D_ACCEL		"ACCEL"
+#define D_ACCEL_X	"ACCEL X"
+#define D_ACCEL_Y	"ACCEL Y"
+#define D_ACCEL_Z	"ACCEL Z"
 
 #define D_BOOT_TM	"BOOT TM"
 #define D_TIME		"TIME T:"

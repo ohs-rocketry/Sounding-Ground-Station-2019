@@ -34,7 +34,7 @@ int main(char** argc, unsigned int count) {
 		GS_INFO("Initalized GLFW {}", glfwGetVersionString());
 	}
 	float lastTime = glfwGetTime();
-	bool fullscreen = true;
+	bool fullscreen = false;
 	GLFWwindow* window;
 	GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 	const GLFWvidmode* mode = glfwGetVideoMode(monitor);

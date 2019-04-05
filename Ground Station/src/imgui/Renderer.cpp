@@ -99,7 +99,7 @@ Renderer::Renderer(GLFWwindow* window) {
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init();
 
-	rocket = new DisplayGroup("Rocket", { D_ACC_SPD, D_PIT_SPD, D_ALT, D_ACCEL });
+	rocket = new DisplayGroup("Rocket", { D_ACC_SPD, D_PIT_SPD, D_ALT, D_ACCEL, D_ACCEL_X, D_ACCEL_Y, D_ACCEL_Z });
 	orbit = new DisplayGroup("Orbit", { D_TIME, D_E_APOGE, D_TT_APO, D_SMA, D_ECCN, D_INC, D_PEROID, D_VEL, D_TRN_HGT, D_LAT, D_LNG, D_HEADING, D_VERTSPD, D_HORZSPD });
 	sysInfo = new DisplayGroup("System Info", { "#Virtual Memory Info", D_GS_VMem, D_SYS_VMem, D_T_VMem, "#RAM Info", D_GS_RAM, D_SYS_RAM, D_T_RAM, "#CPU Info", D_CPU_NUM, D_CPU_PCT });
 	telemetry = new DisplayGroup("Telemetry", { D_PACKET, D_SPACKET });

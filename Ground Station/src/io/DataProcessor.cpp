@@ -44,138 +44,6 @@ void DataProcessor::Process(const HertzData& data) {
 		GS_TRACE("Time at 0 {}", m_timeAtZero.count());
 	} else if(lastPacketMillis > data.millis) {//The rocket "went back in time" 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		GS_CRITICAL("ROCKET RESATRTED. LAST PACKET IS AFTER THE NEXT PACKET");
 		GS_CRITICAL("EXPECT DATA LOSS");
 		m_timeAtZero = PlatformUtils::GetSystemTime() - milliseconds(data.millis);
@@ -191,8 +59,13 @@ void DataProcessor::Process(const SubPacketData& data) {
 	instance->Set(D_ACC_SPD, data.accelerometerSpeed);
 	instance->Set(D_PIT_SPD, data.pitotSpeed);
 	instance->Set(D_ALT, data.altimeterAltitude);
-	instance->Set(D_ACCEL, data.accelAcceleration);
 	instance->Set(D_SPACKET, data.subPacketCount);
+
+	float ax = data.accelX, ay = data.accelY, az = data.accelZ;
+	instance->Set(D_ACCEL, sqrt(ax*ax + ay*ay + az*az));
+	instance->Set(D_ACCEL_X, ax);
+	instance->Set(D_ACCEL_Y, ay);
+	instance->Set(D_ACCEL_Z, az);
 }
 
 void DataProcessor::Add(const SubPacketData& data) {

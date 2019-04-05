@@ -18,6 +18,9 @@ void DataBank::Init() {
 	instance->RegisterEntry("Pitot Speed",			D_PIT_SPD,    "ft/s", "The change in position per second from the pitot tube");
 	instance->RegisterEntry("Altitude",				D_ALT,          "ft", "The current altitude from the altimeter");
 	instance->RegisterEntry("Acceleration",			D_ACCEL,    "ft/s^2", "The change in speed per second from the accelerometer");
+	instance->RegisterEntry("Acceleration X",		D_ACCEL_X,  "ft/s^2", "The change in speed per second from the accelerometer on the X axis");
+	instance->RegisterEntry("Acceleration Y",		D_ACCEL_Y,  "ft/s^2", "The change in speed per second from the accelerometer on the Y axis");
+	instance->RegisterEntry("Acceleration Z",		D_ACCEL_Z,  "ft/s^2", "The change in speed per second from the accelerometer on the Z axis");
 
 	instance->RegisterEntry("Boot Time",			D_BOOT_TM,       "s", "Time since boot");
 	instance->RegisterEntry("Mission Time",         D_TIME,          "s", "Time since launch");
