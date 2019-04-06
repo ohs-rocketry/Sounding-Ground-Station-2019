@@ -12,7 +12,7 @@ using namespace std::chrono;
 
 class DataProcessor {
 public:
-	static void Process(const HertzData& data);
+	static void Process(const HertzData& data, bool waitMode);
 
 	//The data and the epoch time in millis when the sent the last packet
 	static void Add(const SubPacketData& data);

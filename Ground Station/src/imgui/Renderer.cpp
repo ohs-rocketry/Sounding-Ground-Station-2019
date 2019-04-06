@@ -7,6 +7,7 @@
 #include "Input.h"
 #include "util/Console.h"
 #include "io/DataProcessor.h"
+#include "io/SerialConnection.h"
 
 #include <algorithm> 
 #include <examples/imgui_impl_glfw.h>
@@ -34,6 +35,19 @@ void Renderer::Render(GLFWwindow* window) {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
+
+	if (ImGui::BeginMainMenuBar()) {
+		if (ImGui::BeginMenu("File")) {
+			if (ImGui::MenuItem("Open Serial Port")) {
+				SerialConnection::SetMode(InputMode::FROM_SERIAL);
+			}
+			if (ImGui::MenuItem("Open Serial File")) {
+				SerialConnection::SetMode(InputMode::FROM_FILE);
+			}
+			ImGui::EndMenu();
+		}
+		ImGui::EndMainMenuBar();
+	}
 
 	altitude->Update();
 	acceleration->Update();

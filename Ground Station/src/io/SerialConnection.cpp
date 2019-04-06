@@ -53,10 +53,6 @@ SerialConnection::~SerialConnection() {
 }
 
 SerialConnection::SerialConnection() {
-	allDataFile = fopen("logs/All Serial.dat", "wb");
-	if (allDataFile == nullptr) {
-		GS_ERROR("Unable to create all serial file!");
-	}
 	GS_TRACE("Creating serial thread");
 	m_isRunning = true;
 	m_thread = new std::thread([this]() {
@@ -108,26 +104,63 @@ char chars[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C',
 
 bool waitForMagic = true;
 
+void SerialConnection::SetMode(InputMode mode) {
+	s_Instance->mutex.lock();
+	if (s_Instance->mode != mode) {
+		if (s_Instance->m_port != INVALID_HANDLE_VALUE) {
+			if (CloseHandle(s_Instance->m_port)) GS_INFO("Closed old port/file");
+			else GS_ERROR("Unable to close old port/file");
+		}
+		if (mode == InputMode::FROM_SERIAL) {
+			s_Instance->allDataFile = fopen("logs/All Serial.dat", "wb");
+			if (s_Instance->allDataFile == nullptr) {
+				GS_ERROR("Unable to create all serial file!");
+			} else {
+				GS_INFO("Created all serial file!");
+			}
+		} else {
+			if (s_Instance->allDataFile != nullptr) {
+				fclose(s_Instance->allDataFile);
+				GS_INFO("Closing all serial file");
+			}
+		}
+		s_Instance->mode = mode;
+	}
+	s_Instance->mutex.unlock();
+}
+
 void SerialConnection::Run() {
 	GS_TRACE("Beginning serial thread");
 	while (m_isRunning) {
+		s_Instance->mutex.lock();
 		if (m_port != INVALID_HANDLE_VALUE && !m_portOpen) {//If the port is valid but not open
 			GS_WARN("Lost port");
 			m_port = INVALID_HANDLE_VALUE;
 		}
 		if (m_port == INVALID_HANDLE_VALUE) {
-			for (int i = 0; i < 256; i++) {
-				std::wstring portName = L"\\\\.\\COM" + std::to_wstring(i);
-				m_port = CreateFile(portName.c_str(), GENERIC_READ | GENERIC_WRITE, 0, nullptr, OPEN_EXISTING, 0, nullptr);
+			if (mode == InputMode::FROM_SERIAL) {
+				for (int i = 0; i < 256; i++) {
+					std::wstring portName = L"\\\\.\\COM" + std::to_wstring(i);
+					m_port = CreateFile(portName.c_str(), GENERIC_READ | GENERIC_WRITE, 0, nullptr, OPEN_EXISTING, 0, nullptr);
+					if (m_port != INVALID_HANDLE_VALUE) {
+						GS_INFO("Opened port {} full name: \"{}\", address: {}", i, std::string(portName.begin(), portName.end()), (void*)m_port);
+						m_portOpen = true;
+						ConfigureSerialPort(115200);
+						break;
+					}
+				}
+			} else if(mode == InputMode::FROM_FILE) {//File
+				m_port = CreateFile(L"logs/All Serial.dat", GENERIC_READ, 0, nullptr, OPEN_EXISTING, 0, nullptr);
 				if (m_port != INVALID_HANDLE_VALUE) {
-					GS_INFO("Opened port {} full name: \"{}\", address: {}", i, std::string(portName.begin(), portName.end()), (void*) m_port);
+					GS_INFO("Opened pre-existing serial file");
 					m_portOpen = true;
-					ConfigureSerialPort(115200);
-					break;
+				} else {
+					GS_ERROR("Could not open pre-existing serial file!");
 				}
 			}
+			s_Instance->mutex.unlock();
 		} else {//The port is valid
-			
+			s_Instance->mutex.unlock();
 			if (waitForMagic) {
 				if (WaitFor(MAGIC_BYTE, MAGIC_COUNT)) continue;
 			}
@@ -139,7 +172,7 @@ void SerialConnection::Run() {
 			{
 				HertzData data;
 				if (Read(&data, sizeof(HertzData))) continue;
-				DataProcessor::Process(data);
+				DataProcessor::Process(data, mode == InputMode::FROM_FILE);
 				break;
 			}
 			case SUB_PACKET_DATA_ID:
@@ -160,7 +193,7 @@ void SerialConnection::Run() {
 				}
 				m_checksum = 0;//Reset for next time
 				waitForMagic = true;//Wait for the next packet
-				fflush(allDataFile);//This thread has plenty of time to wait for the next packet so flush in case bad thing happen th the process
+				if (mode == InputMode::FROM_SERIAL) fflush(allDataFile);//This thread has plenty of time to wait for the next packet so flush in case bad thing happen th the process
 				break;
 			}
 			case END_OF_STREAM_ID:
@@ -175,11 +208,14 @@ void SerialConnection::Run() {
 			}
 		}
 	}
-	fclose(allDataFile);
-	if (CloseHandle(m_port)) {
-		GS_TRACE("Closed serial port successfully");
-	} else {
-		GS_ERROR("Failed serial port: {}", GetLastErrorAsString());
+	if(mode == InputMode::FROM_SERIAL)
+		fclose(allDataFile);
+	if (m_port != INVALID_HANDLE_VALUE) {
+		if (CloseHandle(m_port)) {
+			GS_TRACE("Closed serial port successfully");
+		} else {
+			GS_ERROR("Failed serial port: {}", GetLastErrorAsString());
+		}
 	}
 	GS_TRACE("Saved all serial file");
 	GS_TRACE("Serial communication thread exiting");
@@ -196,7 +232,7 @@ bool SerialConnection::Read(void* buffer, uint64_t requested, bool skipChecksum)
 		DWORD bytesRead = 0;
 		uint64_t neededBytes = requested - read;
 		if (ReadFile(m_port, buffer, neededBytes, &bytesRead, nullptr) != 0) {
-			fwrite(buffer, bytesRead, 1, allDataFile);
+			if (mode == InputMode::FROM_SERIAL) fwrite(buffer, bytesRead, 1, allDataFile);
 			if (!skipChecksum) {
 				for (int i = 0; i < bytesRead; i++) {
 					m_checksum += buf[i];

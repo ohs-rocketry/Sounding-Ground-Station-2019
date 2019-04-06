@@ -2,6 +2,12 @@
 
 #include <thread>
 #include <Windows.h>
+#include <stdio.h>
+#include <mutex>
+
+enum InputMode {
+	FROM_FILE, FROM_SERIAL, NONE
+};
 
 class SerialConnection {
 private:
@@ -23,6 +29,9 @@ public:
 	//A call to Read after this method returns will yeild the bytes in the stream directly after the last required byte
 	//That is to say that thie method only consumes x number of bytes of a specific value and then returns
 	bool WaitFor(uint8_t lookFor, uint32_t times);
+
+	static inline InputMode GetMode() { return s_Instance->mode; }
+	static void SetMode(InputMode mode);
 
 	template<typename T>
 	T Read(DWORD& error) {
@@ -47,5 +56,7 @@ private:
 	bool m_isRunning = false;
 	std::thread* m_thread;
 
-	FILE* allDataFile;
+	FILE* allDataFile = nullptr;
+	InputMode mode = InputMode::NONE;
+	std::mutex mutex;
 };
