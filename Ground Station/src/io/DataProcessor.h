@@ -12,6 +12,8 @@ using namespace std::chrono;
 
 class DataProcessor {
 public:
+
+public:
 	static void Process(const HertzData& data, bool waitMode);
 
 	//The data and the epoch time in millis when the sent the last packet
@@ -19,6 +21,8 @@ public:
 
 	//Looks through the map and updates any needed entries
 	static void Update();
+	
+	static void UpdateSeaLevel(float altitude);
 
 private:
 	static void Process(const SubPacketData& data);

@@ -5,8 +5,8 @@
 #include "imgui/Renderer.h"
 #include "DataBank.h"
 
+#include <limits>
 #include <GLFW/glfw3.h>
-
 
 thread_local unsigned int Graph::currentSample, Graph::currentTotalSamples;
 thread_local std::string Graph::tempString;
@@ -102,6 +102,16 @@ void Graph::Update() {
 		for (int i = m_Index; true; i = PositiveModulo(i - 1, TotalSamples())) {//Start at the current index and fill in any data points we missed from now to the last index
 			if (i == m_LastIndex) break;//Stop once we hit the last index
 			m_Data[i] = value;
+		}
+		if (m_FirstTime) {
+			lastValue = value;
+			m_FirstTime = false;
+		}
+		if (m_FillArray && value != lastValue && !std::isinf(value)) {
+			m_FillArray = false;
+			for (int i = 0; i < TotalSamples(); i++) {
+				m_Data[i] = value;
+			}
 		}
 
 		m_LastIndex = m_Index;

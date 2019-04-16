@@ -17,10 +17,18 @@ void DataBank::Init() {
 	instance->RegisterEntry("Accelerometer Speed",	D_ACC_SPD,    "ft/s", "The change in position per second from the accelerometer");
 	instance->RegisterEntry("Pitot Speed",			D_PIT_SPD,    "ft/s", "The change in position per second from the pitot tube");
 	instance->RegisterEntry("Altitude",				D_ALT,          "ft", "The current altitude from the altimeter");
+	instance->RegisterEntry("Pressure",				D_PRESURE,	   "hPa", "The pressure reported by the altimeter");
+	instance->RegisterEntry("Sea-Level Pressure",	D_SEAPRES,     "hPa", "The calculated pressure at sea level");
+	instance->RegisterEntry("Temprature",			D_TEMP,			"oF", "The temprature reported by the altimeter");
+
 	instance->RegisterEntry("Acceleration",			D_ACCEL,    "ft/s^2", "The change in speed per second from the accelerometer");
 	instance->RegisterEntry("Acceleration X",		D_ACCEL_X,  "ft/s^2", "The change in speed per second from the accelerometer on the X axis");
 	instance->RegisterEntry("Acceleration Y",		D_ACCEL_Y,  "ft/s^2", "The change in speed per second from the accelerometer on the Y axis");
 	instance->RegisterEntry("Acceleration Z",		D_ACCEL_Z,  "ft/s^2", "The change in speed per second from the accelerometer on the Z axis");
+
+	instance->RegisterEntry("Rotation X",			D_ROT_X, "?", "The raw rotation reported by gyro around the X axis");
+	instance->RegisterEntry("Rotation Y",			D_ROT_Y, "?", "The raw rotation reported by gyro around Y axis");
+	instance->RegisterEntry("Rotation Z",			D_ROT_Z, "?", "The raw rotation reported by gyro around Z axis");
 
 	instance->RegisterEntry("Boot Time",			D_BOOT_TM,       "s", "Time since boot");
 	instance->RegisterEntry("Mission Time",         D_TIME,          "s", "Time since launch");

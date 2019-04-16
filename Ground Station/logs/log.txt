@@ -1,47 +1,33 @@
-[Sat Apr 6 09:54:16 2019] [trace] Ground Station: Ground Station Logging Initalization Complete
-[Sat Apr 6 09:54:17 2019] [trace] Ground Station: Creating serial thread
-[Sat Apr 6 09:54:17 2019] [trace] Ground Station: Starting serial thread
-[Sat Apr 6 09:54:17 2019] [trace] Ground Station: Beginning serial thread
-[Sat Apr 6 09:54:17 2019] [info] Ground Station: Initalized GLFW 3.3.0 Win32 WGL EGL VisualC
-[Sat Apr 6 09:54:17 2019] [trace] Ground Station: Creating GLFW window
-[Sat Apr 6 09:54:17 2019] [trace] Ground Station: Creating window on monitor name: Generic PnP Monitor
-[Sat Apr 6 09:54:17 2019] [trace] Ground Station: Physical width: 20.5118 in, height: 11.5354 in
-[Sat Apr 6 09:54:17 2019] [trace] Ground Station: Window Dimensions: 1440 X 810 px
-[Sat Apr 6 09:54:17 2019] [trace] Ground Station: Window refresh rate: 60, RGB color buffer bits: [8, 8, 8]
-[Sat Apr 6 09:54:17 2019] [trace] Ground Station: Window created successfully
-[Sat Apr 6 09:54:17 2019] [trace] Ground Station: Initalized Glad
-[Sat Apr 6 09:54:17 2019] [info] Ground Station: Using OpenGL Version 4.6.0 NVIDIA 419.35
-[Sat Apr 6 09:54:20 2019] [info] Ground Station: Opened pre-existing serial file
-[Sat Apr 6 09:54:20 2019] [trace] Ground Station: Time at 0 1554558715438
-[Sat Apr 6 09:54:20 2019] [warning] Ground Station: Computed checksum doesn't match expected checksum! Expected 0x1e, Computed 0xeb
-[Sat Apr 6 09:54:21 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:22 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:23 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:24 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:25 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:26 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:27 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:28 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:29 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:30 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:31 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:32 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:33 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:34 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:35 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:36 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:37 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:38 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:39 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:40 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:41 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:42 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:43 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:44 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:45 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:46 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:47 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:48 2019] [info] Ground Station: Sleeping for 1000 ms
-[Sat Apr 6 09:54:53 2019] [trace] Ground Station: Window closed
-[Sat Apr 6 09:54:53 2019] [trace] Ground Station: Terminating GLFW
-[Sat Apr 6 09:54:53 2019] [trace] Ground Station: Closing serial connection
+[Sat Apr 13 14:33:46 2019] [trace] Ground Station: Ground Station Logging Initalization Complete
+[Sat Apr 13 14:33:46 2019] [trace] Ground Station: Creating serial thread
+[Sat Apr 13 14:33:46 2019] [trace] Ground Station: Starting serial thread
+[Sat Apr 13 14:33:46 2019] [trace] Ground Station: Beginning serial thread
+[Sat Apr 13 14:33:46 2019] [info] Ground Station: Initalized GLFW 3.3.0 Win32 WGL EGL VisualC
+[Sat Apr 13 14:33:46 2019] [trace] Ground Station: Creating GLFW window
+[Sat Apr 13 14:33:46 2019] [trace] Ground Station: Creating window on monitor name: Generic PnP Monitor
+[Sat Apr 13 14:33:46 2019] [trace] Ground Station: Physical width: 13.5433 in, height: 7.59843 in
+[Sat Apr 13 14:33:46 2019] [trace] Ground Station: Window Dimensions: 1440 X 810 px
+[Sat Apr 13 14:33:46 2019] [trace] Ground Station: Window refresh rate: 60, RGB color buffer bits: [8, 8, 8]
+[Sat Apr 13 14:33:46 2019] [trace] Ground Station: Window created successfully
+[Sat Apr 13 14:33:46 2019] [trace] Ground Station: Initalized Glad
+[Sat Apr 13 14:33:46 2019] [info] Ground Station: Using OpenGL Version 4.5.0 - Build 22.20.16.4749
+[Sat Apr 13 14:33:49 2019] [info] Ground Station: Opened pre-existing serial file
+[Sat Apr 13 14:33:49 2019] [trace] Ground Station: Time at 0 1555179067043
+[Sat Apr 13 14:33:49 2019] [warning] Ground Station: Computed checksum doesn't match expected checksum! Expected 0xa7, Computed 0x74
+[Sat Apr 13 14:34:47 2019] [warning] Ground Station: Encountered unknown packet id: 0x61
+[Sat Apr 13 14:34:49 2019] [warning] Ground Station: Computed checksum doesn't match expected checksum! Expected 0x75, Computed 0x6a
+[Sat Apr 13 14:34:51 2019] [warning] Ground Station: Encountered unknown packet id: 0x62
+[Sat Apr 13 14:34:53 2019] [warning] Ground Station: Computed checksum doesn't match expected checksum! Expected 0xac, Computed 0x5c
+[Sat Apr 13 14:35:07 2019] [warning] Ground Station: Encountered unknown packet id: 0x62
+[Sat Apr 13 14:35:09 2019] [warning] Ground Station: Computed checksum doesn't match expected checksum! Expected 0xd3, Computed 0xa8
+[Sat Apr 13 14:35:28 2019] [warning] Ground Station: Computed checksum doesn't match expected checksum! Expected 0xb0, Computed 0xe1
+[Sat Apr 13 14:35:48 2019] [warning] Ground Station: Computed checksum doesn't match expected checksum! Expected 0xf1, Computed 0xfd
+[Sat Apr 13 14:36:30 2019] [warning] Ground Station: Computed checksum doesn't match expected checksum! Expected 0x72, Computed 0x7b
+[Sat Apr 13 14:36:46 2019] [warning] Ground Station: Computed checksum doesn't match expected checksum! Expected 0xfb, Computed 0x8f
+[Sat Apr 13 14:36:57 2019] [trace] Ground Station: Window closed
+[Sat Apr 13 14:36:57 2019] [trace] Ground Station: Terminating GLFW
+[Sat Apr 13 14:36:57 2019] [trace] Ground Station: Closing serial connection
+[Sat Apr 13 14:36:57 2019] [trace] Ground Station: Closed serial port successfully
+[Sat Apr 13 14:36:57 2019] [trace] Ground Station: Saved all serial file
+[Sat Apr 13 14:36:57 2019] [trace] Ground Station: Serial communication thread exiting
+[Sat Apr 13 14:36:57 2019] [trace] Ground Station: Serial port clean-up completed

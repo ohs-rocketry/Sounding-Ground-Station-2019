@@ -33,6 +33,8 @@ public:
 
 	inline float GetLatestSample() { return m_LatestSample; }
 
+	inline void ResetArray() { m_FillArray = true; }
+
 public:
 	static thread_local std::string tempString;
 private:
@@ -67,5 +69,7 @@ private:
 		
 	GraphDisplayMode m_DisplayMode = GraphDisplayMode::Linear;
 	GraphDataMode m_DataMode = GraphDataMode::CurrentValue;
+	bool m_FirstTime = true, m_FillArray = true;
+	float lastValue = 0.0f;
 
 };

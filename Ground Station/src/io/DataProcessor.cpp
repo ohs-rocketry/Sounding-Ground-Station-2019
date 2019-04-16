@@ -4,10 +4,20 @@
 
 #include <limits>
 
+#define METER_TO_FOOT 3.28084
+
 std::map<milliseconds, SubPacketData> DataProcessor::m_map;
+double groundStationAltitude;
 
 milliseconds DataProcessor::m_timeAtZero = milliseconds::max();
 uint32_t DataProcessor::lastPacketMillis = std::numeric_limits<uint32_t>::max();
+
+void DataProcessor::UpdateSeaLevel(float altitude) {
+	groundStationAltitude = altitude;
+	altitude /= METER_TO_FOOT;//Convert to meters
+	double seaLevelPressure = DataBank::GetInstance()->Get<double>(D_PRESURE) / pow(1 - 0.0000225577 * altitude, 5.25588);
+	DataBank::GetInstance()->Set(D_SEAPRES, seaLevelPressure);
+}
 
 void DataProcessor::Update() {
 	milliseconds now = PlatformUtils::GetSystemTime();
@@ -62,18 +72,34 @@ void DataProcessor::Process(const HertzData& data, bool waitMode) {
 	instance->Set(D_PACKET, data.packetCount);
 }
 
+float dt = 0.0f, lastPitotSpeed = 0.0f;
+uint32_t lastSubPacketTime = 0;
+
 void DataProcessor::Process(const SubPacketData& data) {
+	if (lastSubPacketTime > data.millis) {
+
+	}
 	DataBank* instance = DataBank::GetInstance();
-	instance->Set(D_ACC_SPD, data.accelerometerSpeed);
-	instance->Set(D_PIT_SPD, data.pitotSpeed);
-	instance->Set(D_ALT, data.altimeterAltitude);
+	float pitotSpeed = data.pitotSpeed;
+	instance->Set(D_PIT_SPD, pitotSpeed);
+	instance->Set(D_PRESURE, data.altimeterPressure);
+	instance->Set(D_TEMP, data.temperature);
+	double meters = (-pow(data.altimeterPressure / instance->Get<double>(D_SEAPRES), 1.0 / 5.25588) + 1.0) / 0.000025577;
+	instance->Set(D_ALT, meters * METER_TO_FOOT /*- groundStationAltitude*/);//Calculate Alt
 	instance->Set(D_SPACKET, data.subPacketCount);
 
-	float ax = data.accelX, ay = data.accelY, az = data.accelZ;
-	instance->Set(D_ACCEL, sqrt(ax*ax + ay*ay + az*az));
+	double ax = data.accelX, ay = data.accelY, az = data.accelZ;
+	instance->Set(D_ACCEL, sqrt(ax*ax + ay * ay + az * az));
 	instance->Set(D_ACCEL_X, ax);
 	instance->Set(D_ACCEL_Y, ay);
 	instance->Set(D_ACCEL_Z, az);
+	instance->Set(D_ACC_SPD, (pitotSpeed + lastPitotSpeed) / 2.0f);
+
+	instance->Set(D_ROT_X, data.rx);
+	instance->Set(D_ROT_Y, data.ry);
+	instance->Set(D_ROT_Z, data.rz);
+	lastSubPacketTime = data.millis;
+	lastPitotSpeed = pitotSpeed;
 }
 
 void DataProcessor::Add(const SubPacketData& data) {

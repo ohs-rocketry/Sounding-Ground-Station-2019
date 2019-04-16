@@ -17,5 +17,7 @@ public:
 	static ImFont* textFont;
 	static ImFont* arialFont;
 
+	static void ResetArray();
+
 private:
 };

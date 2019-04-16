@@ -16,10 +16,18 @@
 #define D_ACC_SPD	"ACC SPD"
 #define D_PIT_SPD	"PIT SPD"
 #define D_ALT		"ALT"
+#define D_PRESURE	"PRESURE"
+#define D_SEAPRES	"SEAPRES"
+#define D_TEMP		"TEMP"
+
 #define D_ACCEL		"ACCEL"
 #define D_ACCEL_X	"ACCEL X"
 #define D_ACCEL_Y	"ACCEL Y"
 #define D_ACCEL_Z	"ACCEL Z"
+
+#define D_ROT_X		"ROT X"
+#define D_ROT_Y		"ROT Y"
+#define D_ROT_Z		"ROT Z"
 
 #define D_BOOT_TM	"BOOT TM"
 #define D_TIME		"TIME T:"

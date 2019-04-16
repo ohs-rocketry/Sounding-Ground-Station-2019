@@ -36,18 +36,21 @@ void Renderer::Render(GLFWwindow* window) {
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
-	if (ImGui::BeginMainMenuBar()) {
-		if (ImGui::BeginMenu("File")) {
-			if (ImGui::MenuItem("Open Serial Port")) {
-				SerialConnection::SetMode(InputMode::FROM_SERIAL);
-			}
-			if (ImGui::MenuItem("Open Serial File")) {
-				SerialConnection::SetMode(InputMode::FROM_FILE);
-			}
-			ImGui::EndMenu();
-		}
-		ImGui::EndMainMenuBar();
+	GSBegin("Configure");
+	if (ImGui::Button("Open Serial Port")) {
+		SerialConnection::SetMode(InputMode::FROM_SERIAL);
+		ResetArray();
 	}
+	if (ImGui::Button("Open Serial File")) {
+		SerialConnection::SetMode(InputMode::FROM_FILE);
+		ResetArray();
+	}
+	ImGui::Text("Current Altitude");
+	static float alt = 0.0f;
+	if (ImGui::InputFloat("", &alt, 5.0f, 25.0f, 0)) {
+		DataProcessor::UpdateSeaLevel(alt);
+	}
+	GSEnd();
 
 	altitude->Update();
 	acceleration->Update();
@@ -113,11 +116,10 @@ Renderer::Renderer(GLFWwindow* window) {
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init();
 
-	rocket = new DisplayGroup("Rocket", { D_ACC_SPD, D_PIT_SPD, D_ALT, D_ACCEL, D_ACCEL_X, D_ACCEL_Y, D_ACCEL_Z });
+	rocket = new DisplayGroup("Rocket", { D_ACC_SPD, D_PIT_SPD, D_ALT, D_PRESURE, D_SEAPRES, D_TEMP, D_ACCEL, D_ACCEL_X, D_ACCEL_Y, D_ACCEL_Z, D_ROT_X, D_ROT_Y, D_ROT_Z });
 	orbit = new DisplayGroup("Orbit", { D_TIME, D_E_APOGE, D_TT_APO, D_SMA, D_ECCN, D_INC, D_PEROID, D_VEL, D_TRN_HGT, D_LAT, D_LNG, D_HEADING, D_VERTSPD, D_HORZSPD });
 	sysInfo = new DisplayGroup("System Info", { "#Virtual Memory Info", D_GS_VMem, D_SYS_VMem, D_T_VMem, "#RAM Info", D_GS_RAM, D_SYS_RAM, D_T_RAM, "#CPU Info", D_CPU_NUM, D_CPU_PCT });
 	telemetry = new DisplayGroup("Telemetry", { D_PACKET, D_SPACKET });
-
 
 	accSpeed = new Graph(D_ACC_SPD, 60, 15);
 	accSpeed->SetDataMode(GraphDataMode::Average);
@@ -165,4 +167,12 @@ Renderer::~Renderer() {
 	delete acceleration;
 	delete pitotSpeed;
 	delete accSpeed;
+}
+
+void Renderer::ResetArray()
+{
+	altitude->ResetArray();
+	acceleration->ResetArray();
+	pitotSpeed->ResetArray();
+	accSpeed->ResetArray();
 }

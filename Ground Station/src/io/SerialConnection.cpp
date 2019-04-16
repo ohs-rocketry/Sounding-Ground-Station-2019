@@ -266,3 +266,9 @@ bool SerialConnection::WaitFor(uint8_t lookFor, uint32_t times) {
 	}//Will return when count == times
 	return false;//success
 }
+
+void SerialConnection::Write(void* buffer, uint64_t size) {
+	DWORD bytesWritten;
+	WriteFile(s_Instance->m_port, buffer, size, &bytesWritten, nullptr);
+	GS_INFO("Write {} / {} bytes to the serialport", bytesWritten, size);
+}

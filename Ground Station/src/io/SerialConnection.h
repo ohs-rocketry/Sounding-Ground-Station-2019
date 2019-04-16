@@ -20,6 +20,13 @@ public:
 
 	//Reads exactly requested number of bytes into the buffer
 	bool Read(void* buffer, uint64_t requested, bool skipChecksum = false);
+
+	static void Write(void* buffer, uint64_t size);
+
+	template<typename T>
+	static void Write(T value) {
+		Write(&value, sizeof(value));
+	}
 	
 	//reads and returns a single byte (0-255) or -1 if an error occured
 	uint32_t ReadByte(bool skipChecksum = false);
